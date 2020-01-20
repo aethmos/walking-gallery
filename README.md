@@ -1,7 +1,7 @@
 # Walking Gallery
 A web gallery which can be navigated by moving around.
 
-## Install
+### Install
 
 ```
 # clone repository and install dependencies
@@ -9,13 +9,13 @@ git clone https://github.com/aethmos/walking-gallery
 npm upgrade && npm install
 ```
 
-## Develop
+### Develop
 ```
 # run development build with hot reloading
 npm run develop
 ```
 
-## Test
+### Test
 ```
 # run production build
 npm run serve
@@ -24,7 +24,7 @@ npm run serve
 npm run test
 ```
 
-## Deploy
+### Deploy
 ```
 # build public folder and manually copy to server
 npm run build
