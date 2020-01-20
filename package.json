@@ -1,0 +1,49 @@
+{
+  "name": "walking-gallery",
+  "version": "0.0.1",
+  "description": "Walking Gallery",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aethmos/walking-gallery.git"
+  },
+  "author": {
+    "name": "Dennis Osipov",
+    "email": "hey@aethmos.com"
+  },
+  "license": "MIT",
+  "homepage": "aethmos.com",
+  "dependencies": {
+    "gatsby": "^2.4.3",
+    "gatsby-plugin-manifest": "^2.1.1",
+    "gatsby-plugin-offline": "^3.0.31",
+    "gatsby-plugin-react-helmet": "^3.0.12",
+    "gatsby-plugin-sass": "^2.0.11",
+    "node-sass": "^4.12.0",
+    "react": "^16.8.6",
+    "react-accelerometer": "^1.0.1",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "react-scrollspy": "^3.4.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "prop-types": "^15.7.2"
+  },
+  "scripts": {
+    "develop": "gatsby develop",
+    "build": "npm run clean && gatsby build",
+    "deploy": "npm run clean && gatsby build --prefix-paths && surge public https://aethmos.surge.sh && gh-pages -d public && npm run clean",
+    "deploy_surge": "npm run clean && gatsby build --prefix-paths && surge public https://aethmos.surge.sh && npm run clean",
+    "deploy_gh_pages": "npm run clean && gatsby build --prefix-paths && gh-pages -d public && npm run clean",
+    "serve": "gatsby serve",
+    "clean": "rimraf .cache public",
+    "format": "prettier --write '**/*.js'",
+    "test": "echo \"no tests specified yet\" && exit 0"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0",
+    "prettier": "^1.17.0",
+    "rimraf": "^2.6.3"
+  },
+  "keywords": [
+    "gatsby"
+  ]
+}
