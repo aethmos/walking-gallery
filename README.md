@@ -24,7 +24,7 @@ npm run serve
 npm run test
 ```
 
-# Deploy
+## Deploy
 ```
 # build public folder and manually copy to server
 npm run build
