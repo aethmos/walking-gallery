@@ -11,13 +11,16 @@ npm upgrade && npm install
 
 ### Develop
 ```
-# run development build with hot reloading
+# serve development build with hot reloading at //localhost:8000
 npm run develop
 ```
 
 ### Test
 ```
-# run production build
+# compile production build
+npm run build
+
+# serve production build at //localhost:8000
 npm run serve
 
 # run tests
