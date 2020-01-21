@@ -20,6 +20,7 @@
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sass": "^2.0.11",
     "gatsby-source-filesystem": "^2.1.46",
+    "gatsby-transformer-json": "^2.2.25",
     "infinite-react-carousel": "^1.2.9",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",

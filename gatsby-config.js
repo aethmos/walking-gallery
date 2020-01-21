@@ -4,6 +4,7 @@ module.exports = {
     title: 'Walking Gallery',
   },
   plugins: [
+    'gatsby-transformer-json',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -16,7 +17,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: 'Walking Gallery',
-        short_name: 'gallery',
+        short_name: 'Walking Gallery',
         start_url: '/',
         background_color: '#111',
         theme_color: '#111',
