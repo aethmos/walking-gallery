@@ -20,8 +20,8 @@ const Layout = ({ children }) => (
         <Helmet
           title={data.site.siteMetadata.title}
           meta={[
-            { name: 'description', content: 'Hyperspace' },
-            { name: 'keywords', content: 'site, web' },
+            { name: 'description', content: 'A web gallery which can be navigated by moving around.' },
+            { name: 'keywords', content: 'walking, gallery, photography, portfolio, site, web, gallery, gatsby, augmented reality, react' },
           ]}
         >
           <html lang="en" />
