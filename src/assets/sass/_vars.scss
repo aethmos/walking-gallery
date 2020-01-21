@@ -20,14 +20,26 @@ $font__weight: normal;
 $font__weight_bold: bold;
 
 // Accent.
-$color__accent_1: #009975;
+
+//$color__accent_1: #009975;
+//$color__accent_1_alt: darken($color__accent_1, 10);
+//$color__accent_2: #d9cc3c;
+//$color__accent_2_alt: darken($color__accent_2, 10);
+//$color__accent_3: #58B368;
+//$color__accent_3_alt: darken($color__accent_3, 10);
+//$color__accent_4: #0D3F67;
+//$color__accent_4_alt: darken($color__accent_4, 10);
+
+$color__accent_1: #09acb8;
 $color__accent_1_alt: darken($color__accent_1, 10);
-$color__accent_2: #d9cc3c;
+$color__accent_2: #003e53;
 $color__accent_2_alt: darken($color__accent_2, 10);
-$color__accent_3: #58B368;
+$color__accent_3: #c00521;
 $color__accent_3_alt: darken($color__accent_3, 10);
-$color__accent_4: #0D3F67;
+$color__accent_4: #282d2d;
 $color__accent_4_alt: darken($color__accent_4, 10);
+$color__accent_5: #d3d5d2;
+$color__accent_5_alt: #d3d5d2;
 
 // Dark.
 $color__background: #111;
