@@ -1,3 +1,16 @@
 @import 'font-awesome.min.css';
 @import 'vars';
 @import 'reset';
+
+body {
+  background: $color__background;
+  color: $color__foreground;
+  font-family: $font__family;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font__weight_bold;
+  font-size: xx-large;
+  color: $color__foreground_bold;
+}
