@@ -1,3 +1,6 @@
+@import 'font-awesome.min.css';
+@import 'reset';
+
 // Device Breakpoints.
 $device__xlarge: 1680px;
 $device__large: 1280px;
@@ -51,3 +54,19 @@ $color__foreground_light: transparentize($color__foreground_bold, 0.65);
 
 $color__card_border: transparentize($color__foreground_bold, 0.85);
 $color__card_bg: transparentize($color__foreground_bold, 0.95);
+
+
+body {
+  width: 100vw;
+  height: 100vh;
+
+  background: $color__background;
+  color: $color__foreground;
+  font-family: $font__family;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font__weight_bold;
+  color: $color__foreground_bold;
+}
