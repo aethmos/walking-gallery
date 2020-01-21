@@ -1,0 +1,34 @@
+@import '../assets/sass/global';
+
+.slide {
+  width: 100vh;
+  height: 100%;
+}
+
+.descriptionPanel {
+  height: 20%;
+  min-height: 100px;
+  background: $color__background_alt;
+
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  opacity: 1;
+
+  transition: all 200ms ease-out 100ms;
+  top: 80%;
+  &.hidden {
+    opacity: 0;
+    transition: all 200ms ease-in 100ms;
+    top: 85%;
+
+    h3 {
+      color: $color__accent_2_alt;
+    }
+  }
+  h3 {
+    font-size: xx-large;
+    color: $color__foreground_bold
+  }
+}
