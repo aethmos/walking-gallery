@@ -13,15 +13,19 @@
   "license": "MIT",
   "homepage": "aethmos.com",
   "dependencies": {
-    "gatsby": "^2.4.3",
+    "gatsby": "^2.19.1",
     "gatsby-background-image": "^0.9.12",
+    "gatsby-image": "^2.2.39",
     "gatsby-plugin-manifest": "^2.1.1",
     "gatsby-plugin-offline": "^3.0.31",
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sass": "^2.0.11",
+    "gatsby-plugin-sharp": "^2.4.0",
     "gatsby-source-filesystem": "^2.1.46",
     "gatsby-transformer-json": "^2.2.25",
+    "gatsby-transformer-sharp": "^2.3.13",
     "infinite-react-carousel": "^1.2.9",
+    "intersection-observer": "^0.7.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -47,7 +51,7 @@
   "devDependencies": {
     "gh-pages": "^2.2.0",
     "prettier": "^1.17.0",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.7.1"
   },
   "keywords": [
     "gatsby"

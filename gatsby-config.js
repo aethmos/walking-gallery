@@ -4,6 +4,14 @@ module.exports = {
     title: 'Walking Gallery',
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-sharp',
+      options: {
+        stripMetadata: true,
+        defaultQuality: 75,
+      },
+    },
+    'gatsby-transformer-sharp',
     'gatsby-transformer-json',
     {
       resolve: `gatsby-source-filesystem`,
