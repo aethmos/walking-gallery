@@ -45,10 +45,9 @@
   }
   h3 {
     margin-bottom: 10px;
-    font-weight: $font__weight_bold;
-    transform: rotate(4deg);
     font-size: x-large;
-    color: $color__foreground_bold
+    color: $color__foreground_bold;
+    text-transform: uppercase;
   }
   span {
     margin-bottom: 5px;

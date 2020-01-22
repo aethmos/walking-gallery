@@ -83,10 +83,10 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-size: x-large;
-  font-weight: $font__weight_bold;
+  font-size: large;
   font-family: $font__family_heading;
-  color: $color__foreground_bold;
+  text-transform: uppercase;
+  color: $color__foreground;
 }
 
 .header {
