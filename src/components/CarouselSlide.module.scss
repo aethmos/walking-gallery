@@ -1,14 +1,30 @@
 @import '../assets/sass/global';
 
 .slide {
-  width: 100vh;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+
+  background-attachment: revert;
 }
 
 .descriptionPanel {
+  $border_width: 3px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+
+  width: 85vw;
   height: 20%;
   min-height: 100px;
-  background: $color__background_alt;
+  //background: $color__accent_2;
+  background: linear-gradient(42deg, $color__accent_2, $color__accent_1_alt);
+  border-radius: $size__border_radius;
+  //border: $size__border_width $color__accent_1_alt solid;
+  //border-bottom: none;
+
+  -webkit-box-shadow: 0 0 5px rgba(0,0,0, 0.6);
+  -moz-box-shadow: 0 0 5px rgba(0,0,0, 0.6);
+  box-shadow: 0 0 5px rgba(0,0,0, 0.6);
 
   position: absolute;
   margin: 0 auto;
@@ -17,7 +33,7 @@
   opacity: 1;
 
   transition: all 200ms ease-out 100ms;
-  top: 80%;
+  top: calc(75% - #{$border_width});
   &.hidden {
     opacity: 0;
     transition: all 200ms ease-in 100ms;
@@ -28,7 +44,13 @@
     }
   }
   h3 {
-    font-size: xx-large;
+    margin-bottom: 10px;
+    font-weight: $font__weight_bold;
+    transform: rotate(4deg);
+    font-size: x-large;
     color: $color__foreground_bold
+  }
+  span {
+    margin-bottom: 5px;
   }
 }
