@@ -17,7 +17,7 @@ const IndexPage = ({data}) => (
 
                 return (
                     <li key={collection.id} style={{zIndex: maxZIndex--}}>
-                        <Link to={collection.slug}>
+                        <Link to={'/' + collection.slug + '/'}>
                             <BackgroundImage Tag={'div'} className={styles.slide} fluid={coverImage} style={{zIndex: maxZIndex--}}>
                                 <div className={styles.descriptionPanel}>
                                     <h3>{collection.title}</h3>
