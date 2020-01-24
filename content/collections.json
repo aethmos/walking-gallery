@@ -1,15 +1,15 @@
 [
   {
-    "date": "2013-08-20",
-    "title": "Trip to Russia",
-    "directory": "2013/Trip to Russia",
-    "slug": "russia"
-  },
-  {
     "date": "2013-07-05",
     "title": "Inside a Coal Mine",
     "directory": "2013/Inside a Coal Mine",
     "slug": "coal"
+  },
+  {
+    "date": "2013-08-20",
+    "title": "Trip to Russia",
+    "directory": "2013/Trip to Russia",
+    "slug": "russia"
   },
   {
     "date": "2016-06-18",
