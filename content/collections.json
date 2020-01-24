@@ -2,56 +2,56 @@
   {
     "date": "2013-07-05",
     "title": "Inside a Coal Mine",
-    "directory": "2013/Inside a Coal Mine",
+    "relativePath": "2013/Inside a Coal Mine",
     "slug": "coal",
     "startIdx": 4
   },
   {
     "date": "2013-08-20",
     "title": "Trip to Russia",
-    "directory": "2013/Trip to Russia",
+    "relativePath": "2013/Trip to Russia",
     "slug": "russia",
     "startIdx": 2
   },
   {
     "date": "2016-06-18",
     "title": "Southern France",
-    "directory": "2016/Southern France",
+    "relativePath": "2016/Southern France",
     "slug": "france",
     "startIdx": 14
   },
   {
     "date": "2017-07-07",
     "title": "Art in Munich",
-    "directory": "2017/Art in Munich",
+    "relativePath": "2017/Art in Munich",
     "slug": "munich",
     "startIdx": 1
   },
   {
     "date": "2018-04-17",
     "title": "My Brother",
-    "directory": "2018/My Brother",
+    "relativePath": "2018/My Brother",
     "slug": "brother",
     "startIdx": 5
   },
   {
     "date": "2019-04-10",
     "title": "Trip to London",
-    "directory": "2019/Trip to London",
+    "relativePath": "2019/Trip to London",
     "slug": "london",
     "startIdx": 2
   },
   {
     "date": "2019-07-01",
     "title": "Trip to Spain",
-    "directory": "2019/Trip to Spain",
+    "relativePath": "2019/Trip to Spain",
     "slug": "spain",
     "startIdx": 2
   },
   {
     "date": "2020-01-19",
     "title": "This is Me",
-    "directory": "2020/This is Me",
+    "relativePath": "2020/This is Me",
     "slug": "self",
     "startIdx": 4
   }
