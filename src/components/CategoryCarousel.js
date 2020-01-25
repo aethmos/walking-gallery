@@ -33,6 +33,7 @@ class CategoryCarousel extends Component {
                     <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
                         <div className={styles.descriptionPanel}>
                             <h3>{index + 1} - {value.title}</h3>
+                            {/*<span>{value.date}</span>*/}
                         </div>
                     </BackgroundImage>
                 </Link>
