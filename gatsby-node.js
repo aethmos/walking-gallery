@@ -6,7 +6,7 @@
 const path = require("path");
 
 exports.onCreateNode = ({node, actions, getNode}) => {
-    console.log(node);
+    // console.log(node);
 };
 
 exports.createPages = async ({graphql, actions, reporter}) => {
