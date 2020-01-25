@@ -1,9 +1,9 @@
 import React from 'react';
 import Layout from '../components/layout';
-import ImageCarousel from "../components/ImageCarousel";
+import Carousel from "./Carousel";
 import {graphql} from "gatsby";
 
-const ImageGalleryTemplate = ({data: {category, images}}) => {
+const AlbumTemplate = ({data: {category, images}}) => {
     images = images.edges.map(edge => {
         let image = edge.node;
         image.category = category;
@@ -12,14 +12,14 @@ const ImageGalleryTemplate = ({data: {category, images}}) => {
     category.totalImages = images.length;
     return (
         <Layout>
-            <ImageCarousel images={images}/>
+            <Carousel images={images}/>
         </Layout>
     );
 };
 
 export const query = graphql`
             query CategoriesAndThumbnails{
-                category: collectionsJson(relativeDirectory: { eq: $path}) {
+                category: categoryJson(relativeDirectory: { eq: $path}) {
                     id
                     title
                     relativeDirectory
@@ -54,4 +54,4 @@ export const query = graphql`
             }
         `;
 
-export default ImageGalleryTemplate;
+export default AlbumTemplate;

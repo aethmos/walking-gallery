@@ -5,7 +5,7 @@ import styles from "./Carousel.module.scss";
 import Slider from "infinite-react-carousel";
 import {Link} from "gatsby";
 
-class CategoryCarousel extends Component {
+class CarouselMenu extends Component {
     render() {
         let {categories} = this.props;
         const settings = {
@@ -30,8 +30,8 @@ class CategoryCarousel extends Component {
     }
 }
 
-CategoryCarousel.propTypes = {
+CarouselMenu.propTypes = {
     categories: PropTypes.array.isRequired
 };
 
-export default CategoryCarousel;
+export default CarouselMenu;

@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import styles from './Carousel.module.scss'
 import BackgroundImage from "gatsby-background-image";
 
-class ImageCarousel extends Component {
+class Carousel extends Component {
   render() {
     let { images} = this.props;
     const settings = {
@@ -17,7 +17,7 @@ class ImageCarousel extends Component {
     return (
         <Slider {...settings}>{ images.map((item, index) => (
             <BackgroundImage key={item.id} className={styles.slide} fluid={item.childImageSharp.fluid}>
-                { item.category.title === undefined ? '' : (
+                { item.category?.title === undefined ? '' : (
                     <div className={styles.descriptionPanel}>
                         <h3>{index + 1} - {item.category.title}</h3>
                     </div>
@@ -28,8 +28,8 @@ class ImageCarousel extends Component {
   }
 }
 
-ImageCarousel.propTypes = {
+Carousel.propTypes = {
   images: PropTypes.array.isRequired
 };
 
-export default ImageCarousel;
+export default Carousel;

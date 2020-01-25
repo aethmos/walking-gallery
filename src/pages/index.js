@@ -1,12 +1,11 @@
 import React from 'react';
 import Layout from '../components/layout';
-import CategoryCarousel from "../components/CategoryCarousel";
+import CarouselMenu from "../components/CarouselMenu";
 import {graphql} from "gatsby";
 
 const IndexPage = ({data: { categories, imagesByCategory }}) => {
     categories = categories.nodes.map(category => {
-        let images =
-            imagesByCategory
+        let images = imagesByCategory
             .group
             .filter(group => group.edges[0].node.relativeDirectory === category.relativeDirectory)
             .edges
@@ -24,14 +23,14 @@ const IndexPage = ({data: { categories, imagesByCategory }}) => {
 
     return (
         <Layout>
-            <CategoryCarousel categories={categories.nodes} />
+            <CarouselMenu categories={categories.nodes} />
         </Layout>
     );
 };
 
 export const query = graphql`
             query CategoriesAndThumbnails{
-                categories: allCollectionsJson {
+                categories: allCategoryJson {
                     nodes {
                         id
                         title
