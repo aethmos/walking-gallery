@@ -1,0 +1,24 @@
+@import '../assets/sass/global';
+
+.header {
+  position: fixed;
+  z-index: 100000;
+
+  width: 100%;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+
+  background: $color__background;
+  color: $color__foreground_bold;
+  h1 {
+    font-size: large;
+    margin: 20px auto;
+  }
+}
+
+.page {
+
+}
