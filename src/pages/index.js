@@ -14,7 +14,6 @@ export const query = graphql`
                 categories: allCollectionsJson {
                     nodes {
                         id
-                        slug
                         title
                         relativeDirectory
                         date(fromNow: true)
