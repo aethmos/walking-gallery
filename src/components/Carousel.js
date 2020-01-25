@@ -6,13 +6,14 @@ import BackgroundImage from "gatsby-background-image";
 
 class Carousel extends Component {
   render() {
-    let { images} = this.props;
+    let { images, initialSlide } = this.props;
     const settings = {
       adaptiveHeight: false,
       arrowsBlock: false,
       className: styles.carousel,
       duration: 100,
-      wheel: true
+      wheel: true,
+      initialSlide: initialSlide
     };
     return (
         <Slider {...settings}>{ images.map((item, index) => (
@@ -29,7 +30,12 @@ class Carousel extends Component {
 }
 
 Carousel.propTypes = {
-  images: PropTypes.array.isRequired
+  images: PropTypes.array.isRequired,
+  initialSlide: PropTypes.number
+};
+
+Carousel.defaultProps = {
+  initialSlide: 0
 };
 
 export default Carousel;

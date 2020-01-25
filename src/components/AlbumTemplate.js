@@ -12,14 +12,14 @@ const AlbumTemplate = ({data: {category, images}}) => {
     category.totalImages = images.length;
     return (
         <Layout>
-            <Carousel images={images}/>
+            <Carousel images={images} initialSlide={}{category.thumbIdx}/>
         </Layout>
     );
 };
 
 export const query = graphql`
             query CategoriesAndThumbnails{
-                category: categoryJson(relativeDirectory: { eq: $path}) {
+                category: categoryJson(id: { eq: $categoryId}) {
                     id
                     title
                     relativeDirectory
