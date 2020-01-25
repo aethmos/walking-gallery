@@ -1,35 +1,49 @@
 import React from 'react';
 import Layout from '../components/layout';
-import CarouselMenu from "../components/CarouselMenu";
-import {graphql} from "gatsby";
+import {graphql, Link} from "gatsby";
+import styles from "../components/Carousel.module.scss";
+import Slider from "infinite-react-carousel";
+import BackgroundImage from "gatsby-background-image";
 
 const IndexPage = ({data: { categories, imagesByCategory }}) => {
     categories = categories.nodes.map(category => {
+        category.link = category.relativeDirectory;
         let images = imagesByCategory
             .group
-            .filter(group => group.edges[0].node.relativeDirectory === category.relativeDirectory)
+            .filter(group => group.edges[0].node.relativeDirectory === category.relativeDirectory)[0]
             .edges
             .map(edge => edge.node);
-
         category.totalImages = images.length;
-        for (let i = 0; i < images.length; i++) {
-            if (i === category.thumbIdx) {
-                category.thumbnail = images[i];
-                break;
-            }
-        }
+        category.thumbnail = images[category.thumbIdx];
         return category;
     }).filter(category => category.thumbnail !== undefined);
 
+    const settings = {
+        adaptiveHeight: false,
+        arrowsBlock: false,
+        className: styles.carousel,
+        duration: 100,
+        wheel: true
+    };
+
     return (
         <Layout>
-            <CarouselMenu categories={categories.nodes} />
+            <Slider {...settings}>{ categories.map((value, index) => (
+                <Link to={'/' + value.relativeDirectory + '/'}>
+                    <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
+                        <div className={styles.descriptionPanel}>
+                            <h3>{index + 1} - {value.title}</h3>
+                            {/*<span>{value.date}</span>*/}
+                        </div>
+                    </BackgroundImage>
+                </Link>
+            )) }</Slider>
         </Layout>
     );
 };
 
 export const query = graphql`
-            query CategoriesAndThumbnails{
+            query CategoriesAndImages{
                 categories: allCategoryJson {
                     nodes {
                         id
@@ -60,6 +74,7 @@ export const query = graphql`
                                         aspectRatio
                                         sizes
                                         src
+                                        srcSet
                                     }
                                 }
                             }
