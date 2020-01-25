@@ -17,6 +17,11 @@
     font-size: large;
     margin: 20px auto;
   }
+  transition: all .2s ease-out;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    transform: translateY(-100%);
+    transition: all .2s ease-in;
+  }
 }
 
 .page {

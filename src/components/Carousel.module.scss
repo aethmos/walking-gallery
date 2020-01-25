@@ -17,10 +17,6 @@
 
   background: linear-gradient(42deg, $color__background_alt, $color__background);
 
-  //-webkit-box-shadow: 0 0 7px rgba(0,0,0, 0.6);
-  //-moz-box-shadow: 0 0 7px rgba(0,0,0, 0.6);
-  //box-shadow: 0 0 7px rgba(0,0,0, 0.6);
-
   position: absolute;
   margin: 0 auto;
   padding: 25px 0;
@@ -30,7 +26,11 @@
 
   opacity: 1;
 
-  transition: all 200ms ease-out 100ms;
+  transition: all .2s ease-out;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    transform: translateY(100%);
+    transition: all .2s ease-in;
+  }
   h3 {
     font-size: x-large;
     color: $color__foreground_bold;
