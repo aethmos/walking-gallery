@@ -1,10 +1,20 @@
-import Carousel from "./Carousel";
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import BackgroundImage from "gatsby-background-image";
+import styles from "./Carousel.module.scss";
+import Slider from "infinite-react-carousel";
+import {Link} from "gatsby";
 
 class CategoryCarousel extends Component {
     render() {
         let {categories, thumbnails} = this.props;
+        const settings = {
+            adaptiveHeight: false,
+            arrowsBlock: false,
+            className: styles.carousel,
+            duration: 100,
+            wheel: true
+        };
 
         let cats = [];
         for (let j = 0; j < categories.length; j++) {
@@ -18,9 +28,15 @@ class CategoryCarousel extends Component {
         }
 
         return (
-            <Carousel items={cats.map((value, index) => {
-                return {...value, index: index, image: value.thumbnail}
-            })}/>
+            <Slider {...settings}>{ cats.map((value, index) => (
+                <Link to={'/' + value.relativeDirectory + '/'}>
+                    <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
+                        <div className={styles.descriptionPanel}>
+                            <h3>{index + 1} - {value.title}</h3>
+                        </div>
+                    </BackgroundImage>
+                </Link>
+            )) }</Slider>
         )
     }
 }
