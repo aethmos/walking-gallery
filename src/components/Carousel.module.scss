@@ -1,15 +1,12 @@
 @import '../assets/sass/global';
 
 .carousel {
-  width: 100vw;
-  height: 100vh;
+
 }
 
 .slide {
   width: 100vw;
   height: 100vh;
-
-  background-attachment: fixed;
 }
 
 .descriptionPanel {
@@ -18,20 +15,15 @@
   flex-flow: column nowrap;
   justify-content: center;
 
-  height: 10%;
-  min-height: 100px;
-  //background: $color__accent_2;
   background: linear-gradient(42deg, $color__background_alt, $color__background);
-  //border-radius: $size__border_radius;
-  //border: $size__border_width $color__accent_1_alt solid;
-  //border-bottom: none;
 
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0, 0.6);
-  -moz-box-shadow: 0 0 5px rgba(0,0,0, 0.6);
-  box-shadow: 0 0 5px rgba(0,0,0, 0.6);
+  -webkit-box-shadow: 0 0 7px rgba(0,0,0, 0.6);
+  -moz-box-shadow: 0 0 7px rgba(0,0,0, 0.6);
+  box-shadow: 0 0 7px rgba(0,0,0, 0.6);
 
   position: absolute;
   margin: 0 auto;
+  padding: 25px 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -39,6 +31,12 @@
   opacity: 1;
 
   transition: all 200ms ease-out 100ms;
+  h3 {
+    font-size: x-large;
+    color: $color__foreground_bold;
+    text-transform: uppercase;
+  }
+
   &.hidden {
     opacity: 0;
     transition: all 200ms ease-in 100ms;
@@ -47,10 +45,5 @@
     h3 {
       color: $color__accent_2_alt;
     }
-  }
-  h3 {
-    font-size: x-large;
-    color: $color__foreground_bold;
-    text-transform: uppercase;
   }
 }
