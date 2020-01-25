@@ -3,15 +3,15 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
+const path = require("path");
 
 exports.onCreateNode = ({node, actions, getNode}) => {
-    // if (node.internal.mediaType === 'image/jpeg')
     console.log(node);
 };
 
 exports.createPages = async ({graphql, actions, reporter}) => {
     const {createPage} = actions;
-    const data = await graphql(`
+    const result = await graphql(`
     query {
       categories: allCategoryJson {
           nodes {
@@ -21,10 +21,10 @@ exports.createPages = async ({graphql, actions, reporter}) => {
       }
     }
   `);
-    if (data.errors) {
+    if (result.errors) {
         reporter.panicOnBuild('🚨  ERROR: Loading "createPages" query')
     }
-    const categories = data.categories.nodes;
+    const categories = result.data.categories.nodes;
     categories.map((value, index) => {
         createPage({
             path: value.relativeDirectory,
