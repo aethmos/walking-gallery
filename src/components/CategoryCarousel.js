@@ -7,7 +7,7 @@ import {Link} from "gatsby";
 
 class CategoryCarousel extends Component {
     render() {
-        let {categories, thumbnails} = this.props;
+        let {categories} = this.props;
         const settings = {
             adaptiveHeight: false,
             arrowsBlock: false,
@@ -15,20 +15,8 @@ class CategoryCarousel extends Component {
             duration: 100,
             wheel: true
         };
-
-        let cats = [];
-        for (let j = 0; j < categories.length; j++) {
-            for (let i = 0; i < thumbnails.length; i++) {
-                let image = thumbnails[i];
-                if (image.relativeDirectory === categories[j].relativeDirectory) {
-                    cats.push({...categories[j], thumbnail: {...image}});
-                    break;
-                }
-            }
-        }
-
         return (
-            <Slider {...settings}>{ cats.map((value, index) => (
+            <Slider {...settings}>{ categories.map((value, index) => (
                 <Link to={'/' + value.relativeDirectory + '/'}>
                     <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
                         <div className={styles.descriptionPanel}>
@@ -43,8 +31,7 @@ class CategoryCarousel extends Component {
 }
 
 CategoryCarousel.propTypes = {
-    categories: PropTypes.array,
-    thumbnails: PropTypes.array
+    categories: PropTypes.array.isRequired
 };
 
 export default CategoryCarousel;
