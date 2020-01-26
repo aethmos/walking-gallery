@@ -13,6 +13,9 @@
   "license": "MIT",
   "homepage": "aethmos.com",
   "dependencies": {
+    "@iconify/icons-mdi-light": "^1.0.3",
+    "@iconify/react": "^1.1.1",
+    "framer-motion": "^1.7.3",
     "gatsby": "^2.19.1",
     "gatsby-background-image": "^0.9.12",
     "gatsby-image": "^2.2.39",
@@ -31,11 +34,10 @@
     "react": "^16.8.6",
     "react-accelerometer": "^1.0.1",
     "react-dom": "^16.8.6",
+    "react-easy-params": "^2.0.2",
     "react-helmet": "^5.2.1",
     "react-scrollspy": "^3.4.0",
-    "smoothscroll-polyfill": "^0.4.4",
-    "@iconify/react": "^1.1.1",
-    "@iconify/icons-mdi-light": "^1.0.3"
+    "smoothscroll-polyfill": "^0.4.4"
   },
   "scripts": {
     "develop": "gatsby develop",
