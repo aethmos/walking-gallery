@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/layout';
 import {graphql} from "gatsby";
-import styles from "./Carousel.module.scss";
+import styles from "./Slider.module.scss";
 import Slider from "../components/Slider";
 import BackgroundImage from "gatsby-background-image";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from "infinite-react-carousel"
-import styles from "./Carousel.module.scss";
+import styles from "./Slider.module.scss";
 
 function DefaultSlider({settings = {}, children}) {
     const finalSettings = {
