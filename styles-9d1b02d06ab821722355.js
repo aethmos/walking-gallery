@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[1],{Snp6:function(e,d,o){},VxRb:function(e,d,o){e.exports={header:"CarouselSlide-module--header--4AREs",slide:"CarouselSlide-module--slide--2KXRy",descriptionPanel:"CarouselSlide-module--descriptionPanel--286QI",hidden:"CarouselSlide-module--hidden--jB-9h"}}}]);
-//# sourceMappingURL=styles-9d1b02d06ab821722355.js.map
