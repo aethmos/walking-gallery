@@ -11,7 +11,8 @@
   justify-content: center;
   text-align: center;
 
-  background: $color__background;
+  //background: $color__background;
+  background: linear-gradient(42deg, $color__background_alt, $color__background);
   color: $color__foreground_bold;
   h1 {
     font-size: large;

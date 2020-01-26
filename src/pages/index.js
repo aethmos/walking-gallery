@@ -5,10 +5,10 @@ import styles from "../components/Carousel.module.scss";
 import Slider from "infinite-react-carousel";
 import BackgroundImage from "gatsby-background-image";
 
-const IndexPage = ({data: { categories, imagesByCategory }}) => {
-    categories = categories.nodes.map(category => {
+const IndexPage = ({data}) => {
+    let categories = data.categories.nodes.map(category => {
         category.link = category.relativeDirectory;
-        let images = imagesByCategory
+        let images = data.imagesByCategory
             .group
             .filter(group => group.edges[0].node.relativeDirectory === category.relativeDirectory)[0]
             .edges
@@ -27,12 +27,12 @@ const IndexPage = ({data: { categories, imagesByCategory }}) => {
     };
 
     return (
-        <Layout>
+        <Layout title={'' + data.categories.totalCount + ' Collections'} image={categories[0].thumbnail.childImageSharp.fluid.src}>
             <Slider {...settings}>{ categories.map((value, index) => (
                 <Link to={'/' + value.relativeDirectory + '/'}>
                     <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
                         <div className={styles.descriptionPanel}>
-                            <h3>{index + 1} - {value.title}</h3>
+                            <h3>{value.title}</h3>
                             {/*<span>{value.date}</span>*/}
                         </div>
                     </BackgroundImage>
@@ -44,7 +44,12 @@ const IndexPage = ({data: { categories, imagesByCategory }}) => {
 
 export const query = graphql`
             query CategoriesAndImages{
-                categories: allCategoryJson {
+                categories: allCategoryJson(
+                    sort : {
+                        order: DESC,
+                        fields: date
+                    }
+                ) {
                     nodes {
                         id
                         title

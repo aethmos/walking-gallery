@@ -23,11 +23,11 @@ const AlbumTemplate = ({data: {category, images}}) => {
       initialSlide: category.thumbIdx
     };
     return (
-        <Layout title={category.title}>
+        <Layout title={category.title} image={images[category.thumbIdx].childImageSharp.fluid.src}>
             <Slider {...settings}>{ images.map((image, index) => (
                 <Link to={image.link ? image.link : '#'}>
                     <BackgroundImage key={image.id} className={styles.slide} fluid={image.childImageSharp.fluid}>
-                        { image.category?.title === undefined ? '' : (
+                        { image.category?.title === undefined ? null : (
                             <div className={styles.descriptionPanel}>
                                 <h3>{index + 1} / {image.category.totalImages}</h3>
                             </div>

@@ -1,7 +1,12 @@
 module.exports = {
   // pathPrefix: `/interactive_gallery/`, // This path is subpath of your hosting https://domain/portfolio
   siteMetadata: {
+    siteUrl: 'https://gallery.aethmos.com',
     title: 'Walking Gallery',
+    description: 'A web gallery which can be navigated by moving around.',
+    author: 'Dennis Osipov',
+    twitterHandle: '@aethmos',
+    keywords: 'walking, gallery, photography, portfolio, site, web, gallery, gatsby, augmented reality, react'
   },
   plugins: [
     {
