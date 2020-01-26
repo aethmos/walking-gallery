@@ -3,7 +3,7 @@ import Layout from '../components/layout';
 import {graphql, Link} from "gatsby";
 import styles from "../components/Carousel.module.scss";
 import BackgroundImage from "gatsby-background-image";
-import Slider from "../components/LoadableSlider";
+import Slider from "../components/Slider";
 
 const IndexPage = ({data}) => {
     let categories = data.categories.nodes.map(category => {

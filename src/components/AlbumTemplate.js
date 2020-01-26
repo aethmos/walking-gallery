@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from '../components/layout';
-import {graphql, Link} from "gatsby";
+import {graphql} from "gatsby";
 import styles from "./Carousel.module.scss";
-import Slider from "../components/LoadableSlider";
+import Slider from "../components/Slider";
 import BackgroundImage from "gatsby-background-image";
 
 const AlbumTemplate = ({data: {category, images}}) => {
@@ -19,8 +19,8 @@ const AlbumTemplate = ({data: {category, images}}) => {
     };
     return (
         <Layout title={category.title} image={images[category.thumbIdx].childImageSharp.fluid.src}>
-            <Slider settings={settings}>{ images.map((image, index) => (
-                <Link to={image.link ? image.link : '#'}>
+            <Slider settings={settings}>
+                { images.map((image, index) => (
                     <BackgroundImage key={image.id} className={styles.slide} fluid={image.childImageSharp.fluid}>
                         { image.category?.title === undefined ? null : (
                             <div className={styles.descriptionPanel}>
@@ -28,8 +28,8 @@ const AlbumTemplate = ({data: {category, images}}) => {
                             </div>
                         ) }
                     </BackgroundImage>
-                </Link>
-            )) }</Slider>
+                )) }
+            </Slider>
         </Layout>
     );
 };
