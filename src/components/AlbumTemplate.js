@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../components/layout';
 import {graphql, Link} from "gatsby";
 import styles from "./Carousel.module.scss";
-import Slider from "infinite-react-carousel";
+import Slider from "../components/LoadableSlider";
 import BackgroundImage from "gatsby-background-image";
 
 const AlbumTemplate = ({data: {category, images}}) => {
@@ -15,16 +15,11 @@ const AlbumTemplate = ({data: {category, images}}) => {
     category.totalImages = images.length;
 
     const settings = {
-      adaptiveHeight: false,
-      arrowsBlock: false,
-      className: styles.carousel,
-      duration: 100,
-      wheel: true,
       initialSlide: category.thumbIdx
     };
     return (
         <Layout title={category.title} image={images[category.thumbIdx].childImageSharp.fluid.src}>
-            <Slider {...settings}>{ images.map((image, index) => (
+            <Slider settings={settings}>{ images.map((image, index) => (
                 <Link to={image.link ? image.link : '#'}>
                     <BackgroundImage key={image.id} className={styles.slide} fluid={image.childImageSharp.fluid}>
                         { image.category?.title === undefined ? null : (

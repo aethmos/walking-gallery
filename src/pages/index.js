@@ -2,8 +2,8 @@ import React from 'react';
 import Layout from '../components/layout';
 import {graphql, Link} from "gatsby";
 import styles from "../components/Carousel.module.scss";
-import Slider from "infinite-react-carousel";
 import BackgroundImage from "gatsby-background-image";
+import Slider from "../components/LoadableSlider";
 
 const IndexPage = ({data}) => {
     let categories = data.categories.nodes.map(category => {
@@ -18,17 +18,9 @@ const IndexPage = ({data}) => {
         return category;
     }).filter(category => category.thumbnail !== undefined);
 
-    const settings = {
-        adaptiveHeight: false,
-        arrowsBlock: false,
-        className: styles.carousel,
-        duration: 100,
-        wheel: true
-    };
-
     return (
         <Layout title={'' + data.categories.totalCount + ' Collections'} image={categories[0].thumbnail.childImageSharp.fluid.src} showHomeButton={false}>
-            <Slider {...settings}>{ categories.map((value, index) => (
+            <Slider>{ categories.map((value, index) => (
                 <Link to={'/' + value.relativeDirectory + '/'}>
                     <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
                         <div className={styles.descriptionPanel}>

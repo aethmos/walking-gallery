@@ -40,9 +40,9 @@
   "scripts": {
     "develop": "gatsby develop",
     "build": "npm run clean && gatsby build",
-    "deploy": "npm run clean && gatsby build --prefix-paths && npm run surge && npm run gh_pages && npm run clean",
-    "deploy_surge": "npm run clean && gatsby build --prefix-paths && npm run surge && npm run clean",
-    "deploy_gh_pages": "npm run clean && gatsby build --prefix-paths && npm run gh_pages && npm run clean",
+    "deploy": "npm run clean && gatsby build --prefix-paths && npm run surge && npm run gh_pages",
+    "deploy_surge": "npm run clean && gatsby build --prefix-paths && npm run surge",
+    "deploy_gh_pages": "npm run clean && gatsby build --prefix-paths && npm run gh_pages",
     "surge": "surge public https://aethmos.surge.sh",
     "gh_pages": "gh-pages -d public",
     "serve": "gatsby serve",
@@ -53,6 +53,7 @@
   "devDependencies": {
     "gh-pages": "^2.2.0",
     "prettier": "^1.17.0",
+    "react-loadable": "^5.5.0",
     "rimraf": "^2.7.1"
   },
   "keywords": [

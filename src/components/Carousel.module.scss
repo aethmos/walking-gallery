@@ -4,11 +4,50 @@
 
 }
 
-.slide {
+.slide, .carousel-loader {
   width: 100vw;
   height: 100vh;
+  background-color: $color__accent_5_alt;
   background-size: cover;
   background-position: center center;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(42deg)
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(401deg)
+  }
+}
+
+.carousel-loader {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  // retry button on error
+  button {
+    font-size: large;
+    width: 2em;
+    height: 2em;
+  }
+  // loading icon
+  svg {
+    animation: spin 1s infinite ease-in-out;
+    width: 2em;
+    height: 2em;
+  }
+  //loading message
+  span {
+    display: none;
+    font-size: large;
+    margin: 20px;
+  }
 }
 
 .descriptionPanel {
@@ -33,11 +72,13 @@
     transform: translateY(100%);
     transition: all .2s ease-in;
   }
+
   h3 {
     font-size: x-large;
     color: $color__foreground_bold;
     text-transform: uppercase;
   }
+
   span {
     margin-top: 5px;
     font-size: small;
