@@ -27,7 +27,7 @@ const IndexPage = ({data}) => {
     };
 
     return (
-        <Layout title={'' + data.categories.totalCount + ' Collections'} image={categories[0].thumbnail.childImageSharp.fluid.src}>
+        <Layout title={'' + data.categories.totalCount + ' Collections'} image={categories[0].thumbnail.childImageSharp.fluid.src} showHomeButton={false}>
             <Slider {...settings}>{ categories.map((value, index) => (
                 <Link to={'/' + value.relativeDirectory + '/'}>
                     <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>

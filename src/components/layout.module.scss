@@ -7,22 +7,49 @@
   width: 100%;
 
   display: flex;
-  flex-flow: column;
-  justify-content: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
 
   //background: $color__background;
   background: linear-gradient(42deg, $color__background_alt, $color__background);
   color: $color__foreground_bold;
-  h1 {
-    font-size: large;
-    margin: 20px auto;
-  }
   transition: all .2s ease-out;
   @media (max-height: $device__xsmall) and (orientation: landscape) {
     transform: translateY(-100%);
     transition: all .2s ease-in;
   }
+}
+
+.title {
+  font-size: larger;
+  margin: 20px auto;
+}
+
+.backBtn, .suspendBtn {
+  vertical-align: center;
+  color: $color__foreground;
+
+  transition: opacity .1s ease-in-out;
+  @media (min-width: $device__medium) {
+    cursor: pointer;
+    opacity: .7;
+    &:hover {
+      opacity: 1;
+      transition: opacity .1s ease-in-out;
+    }
+  }
+  svg {
+    height: 30px;
+    width: 30px;
+    margin: 0 20px;
+  }
+}
+
+.suspendBtn {
+  left: auto;
+  right: 0;
 }
 
 .page {

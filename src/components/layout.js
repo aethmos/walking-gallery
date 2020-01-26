@@ -1,11 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {StaticQuery, graphql, Link} from 'gatsby';
 import Helmet from 'react-helmet';
-import { StaticQuery, graphql } from 'gatsby';
+import { Icon} from "@iconify/react";
+import home from "@iconify/icons-mdi-light/home";
+import activatedSensor from "@iconify/icons-mdi-light/eye";
+import suspendedSensor from "@iconify/icons-mdi-light/eye-off";
+import '../assets/sass/global.scss';
 import styles from './layout.module.scss';
 
-import '../assets/sass/global.scss';
-const Layout = ({ children, title, image }) => (
+function Header({showHomeButton, title, sensorActive = false}) {
+    return <div className={styles.header}>
+        <div className={styles.backBtn} style={{opacity: showHomeButton ? 1 : 0}}><Link to='/'><Icon icon={home}/></Link></div>
+        <div className={styles.title}><h1>{title}</h1></div>
+        <div className={styles.suspendBtn}><Icon icon={sensorActive ? activatedSensor : suspendedSensor}/></div>
+    </div>;
+}
+
+Header.propTypes = {
+    title: PropTypes.any,
+    meta: PropTypes.any
+};
+const Layout = ({ children, title, image, showHomeButton = true}) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -44,8 +60,7 @@ const Layout = ({ children, title, image }) => (
             { image ? <meta name="twitter:image" content={image} /> : null}
         </Helmet>
 
-        {/* header */}
-        <div className={styles.header}><h1>{title || meta.title}</h1></div>
+        <Header title={title || meta.title} showHomeButton={showHomeButton}/>
         <div className={styles.page}>
             {children}
         </div>

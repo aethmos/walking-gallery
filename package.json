@@ -33,7 +33,9 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-scrollspy": "^3.4.0",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "@iconify/react": "^1.1.1",
+    "@iconify/icons-mdi-light": "^1.0.3"
   },
   "scripts": {
     "develop": "gatsby develop",
