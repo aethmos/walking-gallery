@@ -5,7 +5,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import styles from './layout.module.scss';
 
 import '../assets/sass/global.scss';
-const Layout = ({ children }) => (
+const Layout = ({ children, title }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -19,7 +19,7 @@ const Layout = ({ children }) => (
     render={data => (
       <>
         <Helmet
-          title={data.site.siteMetadata.title}
+          title={title || data.site.siteMetadata.title}
           meta={[
             { name: 'description', content: 'A web gallery which can be navigated by moving around.' },
             { name: 'keywords', content: 'walking, gallery, photography, portfolio, site, web, gallery, gatsby, augmented reality, react' },
@@ -27,7 +27,7 @@ const Layout = ({ children }) => (
         >
           <html lang="en" />
         </Helmet>
-        <div className={styles.header}><h1>{data.site.siteMetadata.title}</h1></div>
+        <div className={styles.header}><h1>{title || data.site.siteMetadata.title}</h1></div>
         <div className={styles.page}>
             {children}
         </div>

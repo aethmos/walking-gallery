@@ -23,13 +23,13 @@ const AlbumTemplate = ({data: {category, images}}) => {
       initialSlide: category.thumbIdx
     };
     return (
-        <Layout>
+        <Layout title={category.title}>
             <Slider {...settings}>{ images.map((image, index) => (
                 <Link to={image.link ? image.link : '#'}>
                     <BackgroundImage key={image.id} className={styles.slide} fluid={image.childImageSharp.fluid}>
                         { image.category?.title === undefined ? '' : (
                             <div className={styles.descriptionPanel}>
-                                <h3>{index + 1} - {image.category.title}</h3>
+                                <h3>{index + 1} / {image.category.totalImages}</h3>
                             </div>
                         ) }
                     </BackgroundImage>
@@ -47,7 +47,7 @@ export const query = graphql`
                     relativeDirectory
                     date(fromNow: true)
                     thumbIdx
-                } 
+                }
                 images: allFile(
                 filter: {
                     extension: {regex: "/jpg|png/"}, 
