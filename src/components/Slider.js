@@ -8,10 +8,11 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 const Slider = ({
-        className = styles.slider,
-        initialIndex,
-        sections
-    }) => {
+                    className = styles.slider,
+                    initialIndex,
+                    sections,
+                    sensorActive
+                }) => {
 
     const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
     const totalSlides = sections.length;

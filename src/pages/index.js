@@ -20,56 +20,56 @@ const IndexPage = ({data: {categories, imagesByCategory}}) => {
 
     return (
         <Layout title={`${totalImages} Collections`} image={sections[0].image.childImageSharp.fluid.src} showHomeButton={false}>
-            <Slider sections={sections}/>
+            {sensorActive => <Slider sections={sections} sensorActive={sensorActive}/>}
         </Layout>
     );
 };
 
 export const query = graphql`
-            query CategoriesAndImages{
-                categories: allCategoryJson(
-                    sort : {
-                        order: DESC,
-                        fields: date
-                    }
-                ) {
-                    nodes {
+    query CategoriesAndImages{
+        categories: allCategoryJson(
+            sort : {
+                order: DESC,
+                fields: date
+            }
+        ) {
+            nodes {
+                id
+                title
+                relativeDirectory
+                date(fromNow: true)
+                thumbIdx
+            }
+            totalCount
+        }
+        imagesByCategory: allFile(
+            filter: {
+                extension: {regex: "/jpg|png/"}
+            }, sort: {
+                order: ASC,
+                fields: name
+            })
+        {
+            group(field: relativeDirectory) {
+                edges {
+                    node {
                         id
-                        title
+                        name
+                        extension
                         relativeDirectory
-                        date(fromNow: true)
-                        thumbIdx
-                    }
-                    totalCount
-                }
-                imagesByCategory: allFile(
-                    filter: {
-                        extension: {regex: "/jpg|png/"}
-                    }, sort: {
-                        order: ASC,
-                        fields: name
-                    })
-                {
-                    group(field: relativeDirectory) {
-                        edges {
-                            node {
-                                id
-                                name
-                                extension
-                                relativeDirectory
-                                childImageSharp {
-                                    fluid(maxHeight: 1920, quality: 75, cropFocus: ATTENTION) {
-                                        aspectRatio
-                                        sizes
-                                        src
-                                        srcSet
-                                    }
-                                }
+                        childImageSharp {
+                            fluid(maxHeight: 1920, quality: 75, cropFocus: ATTENTION) {
+                                aspectRatio
+                                sizes
+                                src
+                                srcSet
                             }
                         }
                     }
                 }
             }
-        `;
+        }
+    }
+`;
 
 export default IndexPage;
