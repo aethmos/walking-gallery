@@ -15,6 +15,7 @@
 }
 
 .arrows {
+  z-index: 10000;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -26,37 +27,67 @@
   }
 
   height: 100%;
-  width: 50px;
+  width: 150px;
+
+  background: transparentize($color__background, 0.7);
+  opacity: 0;
+  transition: opacity .1s;
+  &:hover {
+    opacity: 1;
+    transition: opacity .1s;
+  }
 
   display: flex;
   justify-content: center;
   align-items: center;
   svg {
-    color: $color__foreground;
+    color: $color__foreground_bold;
     width: 4em;
     height: 4em;
+  }
+
+  @media (max-width: $device__large) {
+    display: none;
   }
 }
 
 .slide {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
 
-  .image {}
+  .image {
+    width: 100%;
+    height: 100%;
+  }
   .panel {
-    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    margin: 0 auto;
+    padding: 25px 0;
+
+    background: transparentize($color__background, 0.15);
+    h3 {
+      font-size: x-large;
+      color: $color__foreground_bold;
+      text-transform: uppercase;
+    }
+
+    span {
+      margin-top: 5px;
+      font-size: small;
+      //text-transform: uppercase;
+    }
   }
 }
 
 .image {
   position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   background-size: cover;
   background-position: center center;
 }
@@ -103,54 +134,3 @@
     margin: 20px;
   }
 }
-
-//.panel {
-//  display: none;
-//  $border_width: 3px;
-//  display: flex;
-//  flex-flow: column nowrap;
-//  justify-content: center;
-//
-//  background: linear-gradient(-42deg, $color__background_alt, $color__background);
-//
-//  position: absolute;
-//  margin: 0 auto;
-//  padding: 25px 0;
-//  left: 0;
-//  right: 0;
-//  bottom: 0;
-//
-//  opacity: 1;
-//
-//  transition: all .2s ease-out;
-//  @media (max-height: $device__xsmall) and (orientation: landscape) {
-//    transform: translateY(100%);
-//    transition: all .2s ease-in;
-//  }
-//
-//  h3 {
-//    font-size: x-large;
-//    color: $color__foreground_bold;
-//    text-transform: uppercase;
-//  }
-//
-//  span {
-//    margin-top: 5px;
-//    font-size: small;
-//    //text-transform: uppercase;
-//  }
-//
-//  &.hidden {
-//    opacity: 0;
-//    transition: all 200ms ease-in 100ms;
-//    top: 85%;
-//
-//    h3 {
-//      color: $color__accent_2_alt;
-//    }
-//  }
-//}
-//
-//.hidden {
-//    opacity: 0;
-//}
