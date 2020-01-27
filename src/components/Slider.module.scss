@@ -57,39 +57,38 @@
   top: 0;
   right: 0;
   bottom: 0;
-
-  .image {
-    width: 100%;
-    height: 100%;
-  }
-  .panel {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    margin: 0 auto;
-    padding: 25px 0;
-
-    background: transparentize($color__background, 0.15);
-    h3 {
-      font-size: x-large;
-      color: $color__foreground_bold;
-      text-transform: uppercase;
-    }
-
-    span {
-      margin-top: 5px;
-      font-size: small;
-      //text-transform: uppercase;
-    }
-  }
 }
 
 .image {
   position: absolute;
+  width: 100%;
+  height: 100%;
+
   background-size: cover;
   background-position: center center;
+}
+
+.panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  margin: 0 auto;
+  padding: 25px 0;
+
+  background: transparentize($color__background, 0.15);
+  h3 {
+    font-size: x-large;
+    color: $color__foreground_bold;
+    text-transform: uppercase;
+  }
+
+  span {
+    margin-top: 5px;
+    font-size: small;
+    //text-transform: uppercase;
+  }
 }
 
 @-webkit-keyframes spin {
