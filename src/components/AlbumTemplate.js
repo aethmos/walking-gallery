@@ -6,30 +6,15 @@ import Slider from "../components/Slider";
 import BackgroundImage from "gatsby-background-image";
 
 const AlbumTemplate = ({data: {category, images}}) => {
-    images = images.edges.map(edge => {
-        let image = edge.node;
-        image.category = category;
-        image.link = '/';
-        return image;
-    });
-    category.totalImages = images.length;
+    const totalImages = images.length;
+    const sections = images.edges.map((edge, index) => ({
+        image: edge.node,
+        text: `${index} / ${totalImages}`
+    }));
 
-    const settings = {
-      initialSlide: category.thumbIdx
-    };
     return (
-        <Layout title={category.title} image={images[category.thumbIdx].childImageSharp.fluid.src}>
-            <Slider settings={settings}>
-                { images.map((image, index) => (
-                    <BackgroundImage key={image.id} className={styles.slide} fluid={image.childImageSharp.fluid}>
-                        { image.category?.title === undefined ? null : (
-                            <div className={styles.descriptionPanel}>
-                                <h3>{index + 1} / {image.category.totalImages}</h3>
-                            </div>
-                        ) }
-                    </BackgroundImage>
-                )) }
-            </Slider>
+        <Layout title={category.title} image={sections[category.thumbIdx].image.childImageSharp.fluid.src}>
+            <Slider sections={sections}/>
         </Layout>
     );
 };

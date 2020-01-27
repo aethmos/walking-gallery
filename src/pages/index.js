@@ -5,31 +5,24 @@ import styles from "../components/Slider.module.scss";
 import BackgroundImage from "gatsby-background-image";
 import Slider from "../components/Slider";
 
-const IndexPage = ({data}) => {
-    let categories = data.categories.nodes.map(category => {
-        category.link = category.relativeDirectory;
-        let images = data.imagesByCategory
+const IndexPage = ({data: {categories, imagesByCategory}}) => {
+    const totalImages = categories.totalCount;
+    const sections = categories.nodes.map(category => {
+        let images = imagesByCategory
             .group
             .filter(group => group.edges[0].node.relativeDirectory === category.relativeDirectory)[0]
             .edges
             .map(edge => edge.node);
         category.totalImages = images.length;
-        category.thumbnail = images[category.thumbIdx];
+        category.image = images[category.thumbIdx];
+        category.text = category.title;
+        category.link = `/${category.relativeDirectory}/`;
         return category;
-    }).filter(category => category.thumbnail !== undefined);
+    }).filter(category => category.image !== undefined);
 
     return (
-        <Layout title={'' + data.categories.totalCount + ' Collections'} image={categories[0].thumbnail.childImageSharp.fluid.src} showHomeButton={false}>
-            <Slider>{ categories.map((value, index) => (
-                <Link to={'/' + value.relativeDirectory + '/'}>
-                    <BackgroundImage className={styles.slide} fluid={value.thumbnail.childImageSharp.fluid}>
-                        <div className={styles.descriptionPanel}>
-                            <h3>{value.title}</h3>
-                            {/*<span>{value.date}</span>*/}
-                        </div>
-                    </BackgroundImage>
-                </Link>
-            )) }</Slider>
+        <Layout title={`${totalImages} Collections`} image={sections[0].image.childImageSharp.fluid.src} showHomeButton={false}>
+            <Slider sections={sections}/>
         </Layout>
     );
 };
