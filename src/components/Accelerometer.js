@@ -1,71 +1,42 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
-export class ReactAccelerometer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            acceleration: {
-                x: 0,
-                y: 0,
-                z: 0
-            },
-            rotation: {
-                alpha: 0,
-                beta: 0,
-                gamma: 0
-            },
-            landscape: false
-        };
-        this.handleAcceleration = this.handleAcceleration.bind(this);
-        this.handleOrientation = this.handleOrientation.bind(this);
-    }
+const Accelerometer = (props) => {
+    const {useGravity = false, multiplier = 1, children } = props;
+    const [acceleration, setAcceleration] = useState({ x: 0, y: 0, z: 0 });
+    const [rotation, setRotation] = useState({ alpha: 0, beta: 0, gamma: 0 });
+    const [landscape, setLandscape] = useState(false);
 
-    componentDidMount() {
-        this.handleOrientation();
-        window.addEventListener('devicemotion', this.handleAcceleration);
-        window.addEventListener('orientationchange', this.handleOrientation);
-    }
+    useEffect(() => {
+        let { type } = window.screen.orientation;
+        setLandscape(type.startsWith("landscape"));
 
-    componentWillUnmount() {
-        window.removeEventListener('devicemotion', this.handleAcceleration);
-        window.removeEventListener('orientationchange', this.handleOrientation);
-    }
+        window.addEventListener('devicemotion', handleAcceleration);
+        window.screen.orientation.addEventListener('change', handleOrientation);
+        return () => {
+            window.removeEventListener('devicemotion', handleAcceleration);
+            window.screen.orientation.removeEventListener('change', handleOrientation);
+        }
+    });
 
-    handleOrientation(event) {
-        let orientation = window.orientation;
-        this.setState({landscape: orientation === 90 || orientation === -90});
-    }
-
-    handleAcceleration(event) {
-
-        let {useGravity, multiplier} = this.props;
-        let landscape = this.state.landscape;
+    const handleAcceleration = (event) => {
         let {x, y, z} = useGravity ? event.accelerationIncludingGravity : event.acceleration;
         let acceleration = {
             x: (landscape ? y : x) * multiplier,
             y: (landscape ? x : y) * multiplier,
             z: z * multiplier
         };
-        let rotation = event.rotationRate || null;
+        let rotation = event.rotationRate || { alpha: 0, beta: 0, gamma: 0 };
 
-        this.setState({
-            rotation,
-            acceleration
-        });
-    }
+        setAcceleration(acceleration);
+        setRotation(rotation);
+    };
 
-    render() {
-        let children = this.props.children;
-        let {acceleration, rotation} = this.state;
-        if (acceleration.x || acceleration.y || acceleration.z) {
-            return children(acceleration, rotation);
-        }
-        return children({x: 0, y: 0, z: 0}, {alpha: 0, beta: 0, gamma: 0});
-    }
-}
+    const handleOrientation = (event) => {
+        let { type } = window.screen.orientation;
+        setLandscape(type.startsWith("landscape"));
+    };
 
-ReactAccelerometer.defaultProps = {
-    multiplier: 1,
-    useGravity: true
+    return children(acceleration, rotation);
 };
-export default ReactAccelerometer;
+
+export default Accelerometer;
