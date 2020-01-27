@@ -32,8 +32,8 @@ module.exports = {
         name: 'Walking Gallery',
         short_name: 'Walking Gallery',
         start_url: '/',
-        background_color: '#111',
-        theme_color: '#111',
+        background_color: '#fff',
+        theme_color: '#fff',
         display: 'standalone',
         icon: 'src/assets/img/favicon.png', // This path is relative to the root of the site.
       },
