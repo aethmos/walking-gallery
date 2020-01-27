@@ -1,39 +1,41 @@
 import React, {useEffect} from "react";
 import BackgroundImage from "gatsby-background-image";
-import Proptypes from "prop-types";
 import {useMotionValue, motion} from "framer-motion";
 import {Link} from "gatsby";
 import styles from "./Slider.module.scss";
 
-const Slide = ({content, index, slider}) => {
+const Slide = ({content, index, active}) => {
     const [offset, setOffset] = useMotionValue(0);
 
     useEffect(() => {
 
     });
 
-    const MainContent = (
-      <>
-        <BackgroundImage className={styles.image}
-                                 fluid={content.image.childImageSharp.fluid}
-                                 data-index={index} data-active={index === slider.state.currentIndex}/>
-        {!content.text ? null :
-        <div className={styles.panel}
-             data-index={index} data-active={index === slider.state.currentIndex}>
-            <h3>{content.text}</h3>
-        </div>}
-      </>
-    );
-
     return content.link ? (
         <motion.div className={styles.slide}>
             <Link to={content.link}>
-                <MainContent/>
+                <BackgroundImage className={styles.image}
+                             fluid={content.image.childImageSharp.fluid}
+                             data-index={index} data-active={active}/>
             </Link>
+
+            {!content.text ? null :
+            <div className={styles.panel}
+                 data-index={index} data-active={active}>
+                <h3>{content.text}</h3>
+            </div>}
         </motion.div>
     ) : (
         <motion.div className={styles.slide}>
-            <MainContent/>
+            <BackgroundImage className={styles.image}
+                             fluid={content.image.childImageSharp.fluid}
+                             data-index={index} data-active={active}/>
+
+            {!content.text ? null :
+            <div className={styles.panel}
+                 data-index={index} data-active={active}>
+                <h3>{content.text}</h3>
+            </div>}
         </motion.div>
     )
 };
