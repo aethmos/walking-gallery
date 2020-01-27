@@ -24,11 +24,11 @@ const Slider = ({
     }
 
     function prevSlide(event) {
-        setCurrentIndex(current => wrapped(current - 1));
+        setCurrentIndex(wrapped(currentIndex - 1));
     }
 
     function nextSlide(event) {
-        setCurrentIndex(current => wrapped(current + 1));
+        setCurrentIndex(wrapped(currentIndex + 1));
     }
 
     function navigateKey(event) {
@@ -53,15 +53,15 @@ const Slider = ({
     }
 
     useEffect(() => {
-        document.addEventListener('keydown', navigateKey);
         const left = leftArrowElement.current;
         const right = rightArrowElement.current;
         left.addEventListener('click', prevSlide);
         right.addEventListener('click', nextSlide);
+        document.addEventListener('keydown', navigateKey);
         return () => {
-            document.removeEventListener('keydown', navigateKey);
             left.removeEventListener('click', prevSlide);
             right.removeEventListener('click', nextSlide);
+            document.removeEventListener('keydown', navigateKey);
         }
     });
 
