@@ -20,7 +20,7 @@ const AlbumTemplate = ({data: {category, images}}) => {
 };
 
 export const query = graphql`
-            query CategoryAndImages($categoryId: String, $path: String) {
+            query CategoryAndImages($categoryId: String, $categoryDirectory: String) {
                 category: categoryJson(id: { eq: $categoryId}) {
                     id
                     title
