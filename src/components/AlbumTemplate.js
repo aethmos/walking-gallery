@@ -4,10 +4,10 @@ import {graphql} from "gatsby";
 import Slider from "../components/Slider";
 
 const AlbumTemplate = ({data: {category, images}}) => {
-    const totalImages = images.length;
+    const totalImages = images.edges.length;
     const sections = images.edges.map((edge, index) => ({
         image: edge.node,
-        text: `${index} / ${totalImages}`
+        text: `${index + 1} / ${totalImages}`
     }));
 
     return (
