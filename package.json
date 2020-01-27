@@ -36,7 +36,8 @@
     "react-easy-params": "^2.0.2",
     "react-helmet": "^5.2.1",
     "react-scrollspy": "^3.4.0",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "@popmotion/popcorn": "latest"
   },
   "scripts": {
     "develop": "gatsby develop",
