@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import BackgroundImage from "gatsby-background-image";
 import {useMotionValue, motion} from "framer-motion";
+import {wrap} from "@popmotion/popcorn";
 import {Link} from "gatsby";
 import styles from "./Slider.module.scss";
 
@@ -8,26 +9,103 @@ const AutoLink = ({to, children}) => {
     return to ? <Link to={to}>{children}</Link> : <>{children}</>
 };
 
-const Slide = ({content, index, totalSlides, active}) => {
-    const offset = useMotionValue(0);
+const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+};
+
+const variants = {
+    left: (deviceWidth) => ({
+        x: -deviceWidth,
+        opacity: 0,
+        scale: 0.6,
+    }),
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1,
+        scale: 0.9,
+    },
+    right: (deviceWidth) => ({
+        zIndex: 0,
+        x: deviceWidth,
+        opacity: 0,
+        scale: 0.6,
+    })
+};
+
+const Slide = ({content, index, totalSlides, useIndex, acceleration, sensorActive}) => {
+    const [currentIndex, setCurrentIndex] = useIndex;
+    const [active, setActive] = useState(currentIndex === index);
+    const [deviceWidth, setDeviceWidth] = useState(1000);
+    const [variant, setVariant] = useState('center');
+    const x = useMotionValue(0);
+
+    function wrapped(number) {
+        return wrap(0, totalSlides - 1, number)
+    }
+
+    useEffect(() => {
+        if (active && sensorActive)
+            if (acceleration.x > 10)
+                setCurrentIndex(index => wrapped(index + 1));
+            else if (acceleration.x < -10)
+                setCurrentIndex(index => wrapped(index - 1));
+    }, [acceleration, active]);
+
+    useEffect(() => {
+        setDeviceWidth(window.innerWidth);
+        window.addEventListener('resize', () => setDeviceWidth(window.innerWidth));
+        return () => {
+            window.removeEventListener('resize', () => setDeviceWidth(window.innerWidth));
+        }
+    }, [deviceWidth]);
 
     useEffect(() => {
 
-    });
+        if (index === currentIndex) {
+            setActive(true);
+            setVariant('center');
+
+        } else {
+            setActive(false);
+            setVariant(index === wrapped(currentIndex - 1) ? 'left' : 'right');
+        }
+    }, [currentIndex]);
 
     return (
-        <motion.div className={styles.slide}>
+        <motion.div className={styles.slide}
+                    animate={variant}
+                    variants={variants}
+                    custom={deviceWidth}
+                    transition={{
+                        x: {type: "spring", stiffness: 300, damping: 200},
+                        opacity: {duration: 0.2},
+                        scale: {duration: 0.2}
+                    }}
+                    style={{x}}
+                    drag={"x"}
+                    dragConstraints={{left: 0, right: 0}}
+                    dragElastic={1}
+                    onDragEnd={(e, {offset, velocity}) => {
+                        const swipe = swipePower(offset.x, velocity.x);
+
+                        if (swipe < -10000) {
+                            setCurrentIndex(index => wrapped(index + 1));
+                        } else if (swipe > 10000) {
+                            setCurrentIndex(index => wrapped(index - 1));
+                        }
+                    }}>
             <AutoLink to={content.link}>
                 <BackgroundImage className={styles.image}
-                             fluid={content.image.childImageSharp.fluid}
-                             data-index={index} data-active={active}/>
+                                 fluid={content.image.childImageSharp.fluid}
+                                 data-index={index} data-active={active}/>
             </AutoLink>
 
             {!content.text ? null :
-            <div className={styles.panel}
-                 data-index={index} data-active={active}>
-                <h3>{content.text}</h3>
-            </div>}
+                <div className={styles.panel}
+                     data-index={index} data-active={active}>
+                    <h3>{content.text}</h3>
+                </div>}
         </motion.div>
     )
 };

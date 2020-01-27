@@ -27,9 +27,10 @@
   }
 
   height: 100%;
-  width: 150px;
+  width: 80px;
 
-  background: transparentize($color__background, 0.7);
+  //background: transparentize($color__background, 0.7);
+  cursor: pointer;
   opacity: 0;
   transition: opacity .1s;
   &:hover {
@@ -54,9 +55,11 @@
 .slide {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 50px;
   right: 0;
   bottom: 0;
+
+  opacity: 0;
 }
 
 .image {
@@ -88,6 +91,12 @@
     margin-top: 5px;
     font-size: small;
     //text-transform: uppercase;
+  }
+
+  transition: bottom 0.2s ease-out;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    bottom: -100%;
+    transition: bottom 0.2s ease-out;
   }
 }
 
