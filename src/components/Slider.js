@@ -32,7 +32,6 @@ const Slider = ({
     }
 
     function navigateKey(event) {
-        console.log(event.keyCode);
         // escape
         if (event.keyCode === 27) {
             window.location.replace('/');
