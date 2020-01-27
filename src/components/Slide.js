@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import BackgroundImage from "gatsby-background-image";
 import Proptypes from "prop-types";
-import {useMotionValue} from "framer-motion";
+import {useMotionValue, motion} from "framer-motion";
 import {Link} from "gatsby";
 import styles from "./Slider.module.scss";
 
@@ -36,15 +36,6 @@ const Slide = ({content, index, slider}) => {
             <MainContent/>
         </motion.div>
     )
-};
-
-Slide.Proptypes = {
-    content: Proptypes.shape({
-        image: Proptypes.node.isRequired,
-        text: Proptypes.string
-    }),
-    index: Proptypes.number,
-    currentIndex: Proptypes.number,
 };
 
 export default Slide;

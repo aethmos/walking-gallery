@@ -12,14 +12,13 @@ const Slider = ({
     }) => {
 
     const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
-    const slides = sections.map(() => useRef());
 
     return (
         <div className={className}>
             <div className={`${styles.arrows} ${styles.left}`}><Icon icon={leftArrow}/></div>
             <div className={`${styles.arrows} ${styles.right}`}><Icon icon={rightArrow}/></div>
             {sections.map((content, index) => {
-                return <Slide ref={slides[index]} index={index} content={content} slider={this}/>
+                return <Slide index={index} content={content} slider={this}/>
             })}
         </div>
     )
