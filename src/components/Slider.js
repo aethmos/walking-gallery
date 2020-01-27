@@ -1,22 +1,28 @@
-import React from 'react';
-import Slider from "infinite-react-carousel"
+import React, {useRef, useState} from 'react';
 import styles from "./Slider.module.scss";
+import Slide from "./Slide";
+import Icon from "@iconify/react";
+import leftArrow from "@iconify/icons-mdi-light/chevron-left";
+import rightArrow from "@iconify/icons-mdi-light/chevron-right";
 
-function DefaultSlider({settings = {}, children}) {
-    const finalSettings = {
-        adaptiveHeight: false,
-        arrowsBlock: false,
-        className: styles.carousel,
-        duration: 100,
-        wheel: true,
-        ...settings
-    };
+const Slider = ({
+        className = styles.slider,
+        initialIndex,
+        sections
+    }) => {
+
+    const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
+    const slides = sections.map(() => useRef());
 
     return (
-        <Slider {...finalSettings}>
-            {children}
-        </Slider>
-    );
-}
+        <div className={className}>
+            <div className={`${styles.arrows} ${styles.left}`}><Icon icon={leftArrow}/></div>
+            <div className={`${styles.arrows} ${styles.right}`}><Icon icon={rightArrow}/></div>
+            {sections.map((content, index) => {
+                return <Slide ref={slides[index]} index={index} content={content} slider={this}/>
+            })}
+        </div>
+    )
+};
 
-export default DefaultSlider;
+export default Slider;

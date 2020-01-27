@@ -1,13 +1,62 @@
 @import '../assets/sass/global';
 
-.carousel {
+.slider {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
 
+  display: flex;
+  flex-flow: row nowrap;
+
+  background-color: $color__accent_5_alt;
 }
 
-.slide, .carousel-loader {
-  width: 100vw;
-  height: 100vh;
-  background-color: $color__accent_5_alt;
+.arrows {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  &.left {
+    left: 0;
+  }
+  &.right {
+    right: 0;
+  }
+
+  height: 100%;
+  width: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    color: $color__foreground;
+    width: 4em;
+    height: 4em;
+  }
+}
+
+.slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .image {}
+  .panel {
+    display: none;
+  }
+}
+
+.image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   background-size: cover;
   background-position: center center;
 }
@@ -24,6 +73,11 @@
 }
 
 .carousel-loader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -50,52 +104,53 @@
   }
 }
 
-.descriptionPanel {
-  $border_width: 3px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-
-  background: linear-gradient(-42deg, $color__background_alt, $color__background);
-
-  position: absolute;
-  margin: 0 auto;
-  padding: 25px 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  opacity: 1;
-
-  transition: all .2s ease-out;
-  @media (max-height: $device__xsmall) and (orientation: landscape) {
-    transform: translateY(100%);
-    transition: all .2s ease-in;
-  }
-
-  h3 {
-    font-size: x-large;
-    color: $color__foreground_bold;
-    text-transform: uppercase;
-  }
-
-  span {
-    margin-top: 5px;
-    font-size: small;
-    //text-transform: uppercase;
-  }
-
-  &.hidden {
-    opacity: 0;
-    transition: all 200ms ease-in 100ms;
-    top: 85%;
-
-    h3 {
-      color: $color__accent_2_alt;
-    }
-  }
-}
-
-.hidden {
-    opacity: 0;
-}
+//.panel {
+//  display: none;
+//  $border_width: 3px;
+//  display: flex;
+//  flex-flow: column nowrap;
+//  justify-content: center;
+//
+//  background: linear-gradient(-42deg, $color__background_alt, $color__background);
+//
+//  position: absolute;
+//  margin: 0 auto;
+//  padding: 25px 0;
+//  left: 0;
+//  right: 0;
+//  bottom: 0;
+//
+//  opacity: 1;
+//
+//  transition: all .2s ease-out;
+//  @media (max-height: $device__xsmall) and (orientation: landscape) {
+//    transform: translateY(100%);
+//    transition: all .2s ease-in;
+//  }
+//
+//  h3 {
+//    font-size: x-large;
+//    color: $color__foreground_bold;
+//    text-transform: uppercase;
+//  }
+//
+//  span {
+//    margin-top: 5px;
+//    font-size: small;
+//    //text-transform: uppercase;
+//  }
+//
+//  &.hidden {
+//    opacity: 0;
+//    transition: all 200ms ease-in 100ms;
+//    top: 85%;
+//
+//    h3 {
+//      color: $color__accent_2_alt;
+//    }
+//  }
+//}
+//
+//.hidden {
+//    opacity: 0;
+//}
