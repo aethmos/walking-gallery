@@ -4,32 +4,24 @@ import {useMotionValue, motion} from "framer-motion";
 import {Link} from "gatsby";
 import styles from "./Slider.module.scss";
 
-const Slide = ({content, index, active}) => {
-    const [offset, setOffset] = useMotionValue(0);
+const AutoLink = ({to, children}) => {
+    return to ? <Link to={to}>{children}</Link> : <>{children}</>
+};
+
+const Slide = ({content, index, totalSlides, active}) => {
+    const offset = useMotionValue(0);
 
     useEffect(() => {
 
     });
 
-    return content.link ? (
+    return (
         <motion.div className={styles.slide}>
-            <Link to={content.link}>
+            <AutoLink to={content.link}>
                 <BackgroundImage className={styles.image}
                              fluid={content.image.childImageSharp.fluid}
                              data-index={index} data-active={active}/>
-            </Link>
-
-            {!content.text ? null :
-            <div className={styles.panel}
-                 data-index={index} data-active={active}>
-                <h3>{content.text}</h3>
-            </div>}
-        </motion.div>
-    ) : (
-        <motion.div className={styles.slide}>
-            <BackgroundImage className={styles.image}
-                             fluid={content.image.childImageSharp.fluid}
-                             data-index={index} data-active={active}/>
+            </AutoLink>
 
             {!content.text ? null :
             <div className={styles.panel}

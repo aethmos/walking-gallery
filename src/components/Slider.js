@@ -18,7 +18,7 @@ const Slider = ({
             <div className={`${styles.arrows} ${styles.left}`}><Icon icon={leftArrow}/></div>
             <div className={`${styles.arrows} ${styles.right}`}><Icon icon={rightArrow}/></div>
             {sections.map((content, index) => {
-                return <Slide index={index} content={content} active={index === currentIndex}/>
+                return <Slide index={index} totalSlides={sections.length} content={content} active={index === currentIndex}/>
             })}
         </div>
     )
