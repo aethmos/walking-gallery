@@ -31,7 +31,7 @@ exports.createPages = async ({graphql, actions, reporter}) => {
             component: path.resolve(`./src/components/AlbumTemplate.js`),
             context: {
                 categoryId: value.id,
-                path: value.relativeDirectory,
+                categoryDirectory: value.relativeDirectory,
 
             },
         })

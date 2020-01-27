@@ -31,7 +31,7 @@ export const query = graphql`
                 images: allFile(
                 filter: {
                     extension: {regex: "/jpg|png/"}, 
-                    relativeDirectory: {eq: $path}
+                    relativeDirectory: {eq: $categoryDirectory}
                 }, sort: {
                     order: ASC, 
                     fields: name
