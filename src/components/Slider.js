@@ -7,13 +7,16 @@ import rightArrow from "@iconify/icons-mdi-light/chevron-right";
 import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
-let cooldownPeriod;
-const cooldownMilliseconds = 400;  // adjust to fit slide animation duration
+let sensorCooldown;
+const cooldownMilliseconds = 1000;  // adjust to fit slide animation duration
+const stepInOutThreshold = 50;  // adjust to fit slide animation duration
+const turnSlideThreshold = 30;  // adjust to fit slide animation duration
 
 const Slider = ({
                     className = styles.slider,
                     initialIndex,
                     sections,
+                    insideSection = true,
                     sensorActive,
                     acceleration,
                     rotation
@@ -31,33 +34,81 @@ const Slider = ({
     const nextSlide = useCallback(() => setCurrentIndex(wrapped(currentIndex + 1)), [setCurrentIndex, currentIndex, wrapped]);
     const prevSlide = useCallback(() => setCurrentIndex(wrapped(currentIndex - 1)), [setCurrentIndex, currentIndex, wrapped]);
 
-    // gesture navigation
+    const enterCurrentSection = useCallback(() => {
+        if (sections[currentIndex].link)
+            window.location.replace(sections[currentIndex].link);
+    }, [sections, currentIndex]);
+    const navigateHome = useCallback(() => {
+        window.location.replace('/');
+    }, []);
+
+    // navigation: step in/out
     useEffect(() => {
         if (listening && sensorActive) {
-            if (acceleration.x > 10) {
-                nextSlide();
-                clearTimeout(cooldownPeriod);
-                setListening(false);
-            } else if (acceleration.x < -10) {
-                prevSlide();
-                clearTimeout(cooldownPeriod);
-                setListening(false);
+            clearTimeout(sensorCooldown);
+            setListening(false);
+
+            if ((!insideSection) && (acceleration.stepInOut < -(stepInOutThreshold))) {
+                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+
+                // enterCurrentSection();
+
+                console.log('go to current section with acceleration values:');
+                console.log(acceleration);
+
+            } else if ((insideSection) && (acceleration.stepInOut > (stepInOutThreshold))) {
+                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+
+                // navigateHome();
+
+                console.log('go to homepage with acceleration values:');
+                console.log(acceleration);
+
+            } else {
+                setListening(true);
             }
-            cooldownPeriod = setTimeout(() => setListening(true), cooldownMilliseconds)
         }
-    }, [acceleration, listening, sensorActive, prevSlide, nextSlide]);
+    }, [acceleration, listening, sensorActive, enterCurrentSection, navigateHome, insideSection]);
+
+    // navigation: turn left/right
+    useEffect(() => {
+        if (listening && sensorActive) {
+            clearTimeout(sensorCooldown);
+            setListening(false);
+
+            // next or previous slide
+            // beta (turning in vertical position) / gamma (turning in flat position)
+            if (rotation.turning < -(turnSlideThreshold)) {
+                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+
+                nextSlide();
+
+                console.log('go to next slide with rotation values:');
+                console.log(rotation);
+
+            } else if (rotation.turning > (turnSlideThreshold)) {
+                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+
+                prevSlide();
+
+                console.log('go to previous slide with rotation values:');
+                console.log(rotation);
+            } else {
+                setListening(true);
+            }
+        }
+    }, [rotation, listening, sensorActive, prevSlide, nextSlide]);
 
     // keyboard and mouse navigation
     useEffect(() => {
         function navigateKey(event) {
             // escape
             if (event.keyCode === 27) {
-                window.location.replace('/');
+                navigateHome();
             }
             // enter
             if (event.keyCode === 13) {
-                if (sections[currentIndex].link)
-                    window.location.replace(sections[currentIndex].link);
+                enterCurrentSection();
             }
             // left arrow
             if (event.keyCode === 37) {
@@ -79,7 +130,7 @@ const Slider = ({
             right.removeEventListener('click', nextSlide);
             document.removeEventListener('keydown', navigateKey);
         }
-    }, [currentIndex, sections, prevSlide, nextSlide]);
+    }, [currentIndex, sections, prevSlide, nextSlide, enterCurrentSection, navigateHome]);
 
     return (
         <div className={className}>
@@ -95,10 +146,10 @@ const Slider = ({
     )
 };
 
-const SensorSlider = (props) => (
-    <Accelerometer>
+const SensorSlider = ({sensorActive = true, ...props}) => (
+    <Accelerometer sensorActive={sensorActive} multiplier={10}>
         {(acceleration, rotation) => (
-            <Slider {...props} acceleration={acceleration} rotation={rotation}/>
+            <Slider {...props} acceleration={acceleration} rotation={rotation} sensorActive={sensorActive}/>
         )}
     </Accelerometer>
 );

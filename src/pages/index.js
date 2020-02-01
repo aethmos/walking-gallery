@@ -20,7 +20,7 @@ const IndexPage = ({data: {categories, imagesByCategory}}) => {
 
     return (
         <Layout title={`${totalImages} Collections`} image={sections[0].image.childImageSharp.fluid.src} showHomeButton={false}>
-            {sensorActive => <Slider sections={sections} sensorActive={sensorActive}/>}
+            {sensorActive => <Slider sections={sections} sensorActive={sensorActive} insideSection={false}/>}
         </Layout>
     );
 };

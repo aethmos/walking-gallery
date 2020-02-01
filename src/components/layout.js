@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {StaticQuery, graphql, Link} from 'gatsby';
 import Helmet from 'react-helmet';
+import {storage} from 'react-easy-params';
 import {Icon} from "@iconify/react";
 import home from "@iconify/icons-mdi-light/home";
 import activatedSensor from "@iconify/icons-mdi-light/eye";
@@ -14,9 +15,15 @@ function Header({showHomeButton, title, sensorActive, setSensorActive}) {
 
     useEffect(() => {
         const button = sensorBtn.current;
-        button.addEventListener('click', event => setSensorActive(!sensorActive));
+        button.addEventListener('click', event => {
+            storage.sensorActive = !sensorActive;
+            setSensorActive(!sensorActive);
+        });
         return () => {
-            button.removeEventListener('click', event => setSensorActive(!sensorActive));
+            button.removeEventListener('click', event => {
+                storage.sensorActive = !sensorActive;
+                setSensorActive(!sensorActive);
+            });
         }
     });
 
@@ -32,7 +39,7 @@ Header.propTypes = {
     meta: PropTypes.any
 };
 const Layout = ({children, title, image, showHomeButton = true}) => {
-    const [sensorActive, setSensorActive] = useState(false);
+    const [sensorActive, setSensorActive] = useState(storage.sensorActive || true);
 
     return (
         <StaticQuery
