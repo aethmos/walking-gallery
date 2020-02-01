@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 const Accelerometer = (props) => {
     const {useGravity = false, multiplier = 1, children } = props;
@@ -6,7 +6,26 @@ const Accelerometer = (props) => {
     const [rotation, setRotation] = useState({ alpha: 0, beta: 0, gamma: 0 });
     const [landscape, setLandscape] = useState(false);
 
+
     useEffect(() => {
+        const handleOrientation = (event) => {
+            let { type } = window.screen.orientation;
+            setLandscape(type.startsWith("landscape"));
+        };
+
+        const handleAcceleration = (event) => {
+            let {x, y, z} = useGravity ? event.accelerationIncludingGravity : event.acceleration;
+            let acceleration = {
+                x: (landscape ? y : x) * multiplier,
+                y: (landscape ? x : y) * multiplier,
+                z: z * multiplier
+            };
+            let rotation = event.rotationRate || { alpha: 0, beta: 0, gamma: 0 };
+
+            setAcceleration(acceleration);
+            setRotation(rotation);
+        };
+
         let { type } = window.screen.orientation;
         setLandscape(type.startsWith("landscape"));
 
@@ -16,25 +35,7 @@ const Accelerometer = (props) => {
             window.removeEventListener('devicemotion', handleAcceleration);
             window.screen.orientation.removeEventListener('change', handleOrientation);
         }
-    });
-
-    const handleAcceleration = (event) => {
-        let {x, y, z} = useGravity ? event.accelerationIncludingGravity : event.acceleration;
-        let acceleration = {
-            x: (landscape ? y : x) * multiplier,
-            y: (landscape ? x : y) * multiplier,
-            z: z * multiplier
-        };
-        let rotation = event.rotationRate || { alpha: 0, beta: 0, gamma: 0 };
-
-        setAcceleration(acceleration);
-        setRotation(rotation);
-    };
-
-    const handleOrientation = (event) => {
-        let { type } = window.screen.orientation;
-        setLandscape(type.startsWith("landscape"));
-    };
+    }, [landscape, setLandscape, multiplier, useGravity]);
 
     return children(acceleration, rotation);
 };
