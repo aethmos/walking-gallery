@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import BackgroundImage from "gatsby-background-image";
 import {useMotionValue, motion} from "framer-motion";
 import {wrap} from "@popmotion/popcorn";
@@ -33,24 +33,13 @@ const variants = {
     })
 };
 
-const Slide = ({content, index, totalSlides, useIndex, acceleration, sensorActive}) => {
+const Slide = ({content, index, totalSlides, useIndex}) => {
     const [currentIndex, setCurrentIndex] = useIndex;
-    const [active, setActive] = useState(currentIndex === index);
+    const [inView, setInView] = useState(currentIndex === index);
     const [deviceWidth, setDeviceWidth] = useState(1000);
     const [variant, setVariant] = useState('center');
     const x = useMotionValue(0);
-
-    function wrapped(number) {
-        return wrap(0, totalSlides - 1, number)
-    }
-
-    useEffect(() => {
-        if (active && sensorActive)
-            if (acceleration.x > 10)
-                setCurrentIndex(index => wrapped(index + 1));
-            else if (acceleration.x < -10)
-                setCurrentIndex(index => wrapped(index - 1));
-    }, [acceleration, active]);
+    const wrapped = useCallback(number => wrap(0, totalSlides - 1, number), [totalSlides]);
 
     useEffect(() => {
         setDeviceWidth(window.innerWidth);
@@ -63,14 +52,14 @@ const Slide = ({content, index, totalSlides, useIndex, acceleration, sensorActiv
     useEffect(() => {
 
         if (index === currentIndex) {
-            setActive(true);
+            setInView(true);
             setVariant('center');
 
         } else {
-            setActive(false);
+            setInView(false);
             setVariant(index === wrapped(currentIndex - 1) ? 'left' : 'right');
         }
-    }, [currentIndex]);
+    }, [currentIndex, index, wrapped]);
 
     return (
         <motion.div className={styles.slide}
@@ -98,12 +87,12 @@ const Slide = ({content, index, totalSlides, useIndex, acceleration, sensorActiv
             <AutoLink to={content.link}>
                 <BackgroundImage className={styles.image}
                                  fluid={content.image.childImageSharp.fluid}
-                                 data-index={index} data-active={active}/>
+                                 data-index={index} data-active={inView}/>
             </AutoLink>
 
             {!content.text ? null :
                 <div className={styles.panel}
-                     data-index={index} data-active={active}>
+                     data-index={index} data-active={inView}>
                     <h3>{content.text}</h3>
                 </div>}
         </motion.div>
