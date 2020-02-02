@@ -8,11 +8,11 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let turnSlideCooldown;
-const turnSlideThreshold = 50;
+const turnSlideThreshold = 45;
 const turnSlideCooldownMilliseconds = 1000;
 
 let stepInOutCooldown;
-const stepInOutThreshold = 5;
+const stepInOutThreshold = 6;
 const stepInOutCooldownMilliseconds = 3000;
 
 const Slider = ({
@@ -56,7 +56,7 @@ const Slider = ({
             if ((!insideSection) && (acceleration.stepInOut > (stepInOutThreshold))) {
                 stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
-                // enterCurrentSection();
+                enterCurrentSection();
 
                 console.log('go to current section with acceleration values:');
                 console.log(acceleration);
@@ -65,7 +65,7 @@ const Slider = ({
             } else if ((insideSection) && (acceleration.stepInOut < -(stepInOutThreshold))) {
                 stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
-                // navigateHome();
+                navigateHome();
 
                 console.log('go to homepage with acceleration values:');
                 console.log(acceleration);
