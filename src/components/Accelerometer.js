@@ -127,13 +127,12 @@ const Accelerometer = (props) => {
             if (sensorActive) {
                 sensor.addEventListener('reading', handleLinearAcceleration);
                 console.log('acceleration sensor | subscribed');
-
+            } else {
+                resetAcceleration();
                 return () => {
                     sensor.removeEventListener('reading', handleLinearAcceleration);
                     console.log('acceleration sensor | unsubscribed');
                 }
-            } else {
-                resetAcceleration();
             }
         }
     }, [sensor]);
