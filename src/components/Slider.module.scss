@@ -59,6 +59,9 @@
   right: 0;
   bottom: 0;
 
+  border-bottom-left-radius: $size__border_radius;
+  border-bottom-right-radius: $size__border_radius;
+
   opacity: 0;
   @media (max-height: $device__xsmall) and (orientation: landscape) {
     top: 0;

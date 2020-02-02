@@ -116,7 +116,7 @@ const Accelerometer = (props) => {
             setAcceleration({
                 ...newAcceleration,
                 ...distances,
-                stepInOut: (-distances.distanceZ + distances.distanceY) / 2.0
+                stepInOut: (-distances.distanceZ * (2/3.0) + (1/3.0) * distances.distanceY)
             });
             accelerationReset = setTimeout(resetAcceleration, 300);
         }

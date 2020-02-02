@@ -8,11 +8,11 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let turnSlideCooldown;
-const turnSlideThreshold = 30;
+const turnSlideThreshold = 40;
 const turnSlideCooldownMilliseconds = 1000;
 
 let stepInOutCooldown;
-const stepInOutThreshold = 10;
+const stepInOutThreshold = 8;
 const stepInOutCooldownMilliseconds = 3000;
 
 const Slider = ({
@@ -48,17 +48,6 @@ const Slider = ({
 
     // navigation: step in/out
     useEffect(() => {
-        let message = '';
-        if ('Accelerometer' in window)
-            message += ' Accelerometer';
-        if ('LinearAccelerationSensor' in window)
-            message += ' LinearAccelerationSensor';
-        if ('ondevicemotion' in window)
-            message += ' devicemotion';
-        if (message === '')
-            message += 'No Sensor Available';
-        setAlert(message);
-
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
             setListening(false);
