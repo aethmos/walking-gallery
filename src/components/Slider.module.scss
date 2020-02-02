@@ -163,6 +163,14 @@
 
   background: $color__background_alt;
 
+  transition: left .3s ease-in-out;
+  left: 50%;
+  transform: translateX(-50%);
+  .hidden {
+    left: -50%;
+    transition: left .3s ease-in-out;
+  }
+
   h3, h4, p {
     margin: 10px 0;
   }

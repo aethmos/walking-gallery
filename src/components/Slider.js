@@ -22,7 +22,8 @@ const Slider = ({
                     insideSection = true,
                     sensorActive,
                     acceleration,
-                    rotation
+                    rotation,
+                    debugPanelActive
                 }) => {
 
     const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
@@ -146,7 +147,7 @@ const Slider = ({
             <div className={`${styles.arrows} ${styles.left}`} ref={leftArrowElement}><Icon icon={leftArrow}/></div>
             <div className={`${styles.arrows} ${styles.right}`} ref={rightArrowElement}><Icon icon={rightArrow}/></div>
 
-            <div className={styles.debug}>
+            <div className={`${styles.debug}${debugPanelActive ? '' : ` ${styles.hidden}`}`}>
                 <h3>{alert}</h3>
                 <h4>Acceleration</h4>
                 <p>

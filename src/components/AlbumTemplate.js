@@ -12,7 +12,7 @@ const AlbumTemplate = ({data: {category, images}}) => {
 
     return (
         <Layout title={category.title} image={sections[category.thumbIdx].image.childImageSharp.fluid.src}>
-            {sensorActive => <Slider sections={sections} sensorActive={sensorActive}/>}
+            {(sensorActive, debugPanelActive) => <Slider sections={sections} sensorActive={sensorActive} debugPanelActive={debugPanelActive}/>}
         </Layout>
     );
 };

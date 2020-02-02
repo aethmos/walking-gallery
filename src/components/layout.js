@@ -9,17 +9,25 @@ import suspendedSensor from "@iconify/icons-mdi-light/eye-off";
 import '../assets/sass/global.scss';
 import styles from './layout.module.scss';
 
-function Header({showHomeButton, title, sensorActive, setSensorActive}) {
+function Header({showHomeButton, title, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}) {
     const sensorBtn = useRef();
+    const titleBtn = useRef();
 
     useEffect(() => {
         const button = sensorBtn.current;
+        const title = titleBtn.current;
         button.addEventListener('click', event => {
             setSensorActive(!sensorActive);
+        });
+        title.addEventListener('click', event => {
+            setDebugPanelActive(!debugPanelActive);
         });
         return () => {
             button.removeEventListener('click', event => {
                 setSensorActive(!sensorActive);
+            });
+            title.removeEventListener('click', event => {
+                setDebugPanelActive(!debugPanelActive);
             });
         }
     });
@@ -37,6 +45,7 @@ Header.propTypes = {
 };
 const Layout = ({children, title, image, showHomeButton = true}) => {
     const [sensorActive, setSensorActive] = useState(true);
+    const [debugPanelActive, setDebugPanelActive] = useState(false);
 
     return (
         <StaticQuery
@@ -77,9 +86,9 @@ const Layout = ({children, title, image, showHomeButton = true}) => {
                     {image ? <meta name="twitter:image" content={image}/> : null}
                 </Helmet>
 
-                <Header title={title || meta.title} {...{showHomeButton, sensorActive, setSensorActive}}/>
+                <Header title={title || meta.title} {...{showHomeButton, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}}/>
                 <div className={styles.page}>
-                    {children(sensorActive)}
+                    {children(sensorActive, debugPanelActive)}
                 </div>
                 </>
                 )}
