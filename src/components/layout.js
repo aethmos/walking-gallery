@@ -34,7 +34,7 @@ function Header({showHomeButton, title, sensorActive, setSensorActive, debugPane
 
     return <div className={styles.header}>
         <div className={styles.backBtn} style={{opacity: showHomeButton ? 1 : 0}}><Link to='/'><Icon icon={home}/></Link></div>
-        <div className={styles.title}><h1>{title}</h1></div>
+        <div className={styles.title} ref={titleBtn}><h1>{title}</h1></div>
         <div className={styles.suspendBtn} ref={sensorBtn}><Icon icon={sensorActive ? activatedSensor : suspendedSensor}/></div>
     </div>;
 }
