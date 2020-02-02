@@ -165,10 +165,11 @@
 
   transition: left .3s ease-in-out;
   left: 50%;
+  top: auto;
   transform: translateX(-50%);
-  .hidden {
-    left: -50%;
-    transition: left .3s ease-in-out;
+  &.hidden {
+    top: 100%;
+    transition: top .3s ease-in-out;
   }
 
   h3, h4, p {
