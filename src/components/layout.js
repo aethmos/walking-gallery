@@ -90,8 +90,4 @@ const Layout = ({children, title, image, showHomeButton = true}) => {
     );
 };
 
-Layout.propTypes = {
-    children: PropTypes.node.isRequired,
-};
-
 export default Layout;

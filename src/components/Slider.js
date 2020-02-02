@@ -7,10 +7,13 @@ import rightArrow from "@iconify/icons-mdi-light/chevron-right";
 import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
-let sensorCooldown;
-const cooldownMilliseconds = 1000;  // adjust to fit slide animation duration
-const stepInOutThreshold = 50;  // adjust to fit slide animation duration
-const turnSlideThreshold = 30;  // adjust to fit slide animation duration
+let turnSlideCooldown;
+const turnSlideThreshold = 30;
+const turnSlideCooldownMilliseconds = 1000;
+
+let stepInOutCooldown;
+const stepInOutThreshold = 10;
+const stepInOutCooldownMilliseconds = 3000;
 
 const Slider = ({
                     className = styles.slider,
@@ -45,19 +48,19 @@ const Slider = ({
     // navigation: step in/out
     useEffect(() => {
         if (listening && sensorActive) {
-            clearTimeout(sensorCooldown);
+            clearTimeout(stepInOutCooldown);
             setListening(false);
 
-            if ((!insideSection) && (acceleration.stepInOut < -(stepInOutThreshold))) {
-                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+            if ((!insideSection) && (acceleration.stepInOut > (stepInOutThreshold))) {
+                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
                 // enterCurrentSection();
 
                 console.log('go to current section with acceleration values:');
                 console.log(acceleration);
 
-            } else if ((insideSection) && (acceleration.stepInOut > (stepInOutThreshold))) {
-                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+            } else if ((insideSection) && (acceleration.stepInOut < -(stepInOutThreshold))) {
+                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
                 // navigateHome();
 
@@ -73,13 +76,13 @@ const Slider = ({
     // navigation: turn left/right
     useEffect(() => {
         if (listening && sensorActive) {
-            clearTimeout(sensorCooldown);
+            clearTimeout(turnSlideCooldown);
             setListening(false);
 
             // next or previous slide
             // beta (turning in vertical position) / gamma (turning in flat position)
             if (rotation.turning < -(turnSlideThreshold)) {
-                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+                turnSlideCooldown = setTimeout(() => setListening(true), turnSlideCooldownMilliseconds);
 
                 nextSlide();
 
@@ -87,7 +90,7 @@ const Slider = ({
                 console.log(rotation);
 
             } else if (rotation.turning > (turnSlideThreshold)) {
-                sensorCooldown = setTimeout(() => setListening(true), cooldownMilliseconds);
+                turnSlideCooldown = setTimeout(() => setListening(true), turnSlideCooldownMilliseconds);
 
                 prevSlide();
 
@@ -147,7 +150,7 @@ const Slider = ({
 };
 
 const SensorSlider = ({sensorActive = true, ...props}) => (
-    <Accelerometer sensorActive={sensorActive} multiplier={10}>
+    <Accelerometer sensorActive={sensorActive} multiplier={50}>
         {(acceleration, rotation) => (
             <Slider {...props} acceleration={acceleration} rotation={rotation} sensorActive={sensorActive}/>
         )}
