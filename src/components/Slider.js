@@ -8,11 +8,11 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let turnSlideCooldown;
-const turnSlideThreshold = 40;
+const turnSlideThreshold = 50;
 const turnSlideCooldownMilliseconds = 1000;
 
 let stepInOutCooldown;
-const stepInOutThreshold = 8;
+const stepInOutThreshold = 5;
 const stepInOutCooldownMilliseconds = 3000;
 
 const Slider = ({
@@ -165,9 +165,9 @@ const Slider = ({
                     <span>beta: {Math.floor(rotation.beta * 1000) / 1000}</span><br/>
                     <span>gamma: {Math.floor(rotation.gamma * 1000) / 1000}</span><br/>
                     <span>turning: {Math.floor(rotation.turning * 1000) / 1000} / {turnSlideThreshold}</span><br/>
-                    <span>x: {rotation.x || ''}</span><br/>
-                    <span>y: {rotation.y || ''}</span><br/>
-                    <span>z: {rotation.z || ''}</span><br/>
+                    {/*<span>x: {rotation.x || ''}</span><br/>*/}
+                    {/*<span>y: {rotation.y || ''}</span><br/>*/}
+                    {/*<span>z: {rotation.z || ''}</span><br/>*/}
                 </p>
             </div>
 
