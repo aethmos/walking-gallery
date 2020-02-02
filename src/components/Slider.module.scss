@@ -146,3 +146,27 @@
     margin: 20px;
   }
 }
+
+.debug {
+  z-index: 10000;
+  position: fixed;
+  align-self: center;
+  justify-self: center;
+  margin: auto;
+
+  padding: 40px;
+  text-align: left;
+  font-size: large;
+
+  background: $color__background_alt;
+
+  h3, h4, p {
+    margin: 10px 0;
+  }
+  h3, h4 {
+    font-size: larger;
+  }
+  h3 {
+    font-weight: bold;
+  }
+}

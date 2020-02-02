@@ -26,6 +26,7 @@ const Slider = ({
                 }) => {
 
     const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
+    const [alert, setAlert] = useState('initial');
     const totalSlides = sections.length;
 
     const leftArrowElement = useRef();
@@ -47,6 +48,17 @@ const Slider = ({
 
     // navigation: step in/out
     useEffect(() => {
+        let message = '';
+        if ('Accelerometer' in window)
+            message += ' Accelerometer';
+        if ('LinearAccelerationSensor' in window)
+            message += ' LinearAccelerationSensor';
+        if ('ondevicemotion' in window)
+            message += ' devicemotion';
+        if (message === '')
+            message += 'No Sensor Available';
+        setAlert(message);
+
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
             setListening(false);
@@ -58,6 +70,7 @@ const Slider = ({
 
                 console.log('go to current section with acceleration values:');
                 console.log(acceleration);
+                setAlert('go to current section');
 
             } else if ((insideSection) && (acceleration.stepInOut < -(stepInOutThreshold))) {
                 stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
@@ -66,6 +79,7 @@ const Slider = ({
 
                 console.log('go to homepage with acceleration values:');
                 console.log(acceleration);
+                setAlert('go to homepage');
 
             } else {
                 setListening(true);
@@ -88,6 +102,7 @@ const Slider = ({
 
                 console.log('go to next slide with rotation values:');
                 console.log(rotation);
+                setAlert('go to next slide');
 
             } else if (rotation.turning > (turnSlideThreshold)) {
                 turnSlideCooldown = setTimeout(() => setListening(true), turnSlideCooldownMilliseconds);
@@ -96,6 +111,7 @@ const Slider = ({
 
                 console.log('go to previous slide with rotation values:');
                 console.log(rotation);
+                setAlert('go to previous slide');
             } else {
                 setListening(true);
             }
@@ -140,6 +156,30 @@ const Slider = ({
             {/* navigation arrows */}
             <div className={`${styles.arrows} ${styles.left}`} ref={leftArrowElement}><Icon icon={leftArrow}/></div>
             <div className={`${styles.arrows} ${styles.right}`} ref={rightArrowElement}><Icon icon={rightArrow}/></div>
+
+            <div className={styles.debug}>
+                <h3>{alert}</h3>
+                <h4>Acceleration</h4>
+                <p>
+                    <span>x: {Math.floor(acceleration.x * 1000) / 1000}</span><br/>
+                    <span>y: {Math.floor(acceleration.y * 1000) / 1000}</span><br/>
+                    <span>z: {Math.floor(acceleration.z * 1000) / 1000}</span><br/>
+                    <span>distX: {Math.floor(acceleration.distanceX * 1000) / 1000}</span><br/>
+                    <span>distY: {Math.floor(acceleration.distanceY * 1000) / 1000}</span><br/>
+                    <span>distZ: {Math.floor(acceleration.distanceZ * 1000) / 1000}</span><br/>
+                    <span>stepping: {Math.floor(acceleration.stepInOut * 1000) / 1000} / {stepInOutThreshold}</span><br/>
+                </p>
+                <h4>Rotation</h4>
+                <p>
+                    <span>alpha: {Math.floor(rotation.alpha * 1000) / 1000}</span><br/>
+                    <span>beta: {Math.floor(rotation.beta * 1000) / 1000}</span><br/>
+                    <span>gamma: {Math.floor(rotation.gamma * 1000) / 1000}</span><br/>
+                    <span>turning: {Math.floor(rotation.turning * 1000) / 1000} / {turnSlideThreshold}</span><br/>
+                    <span>x: {rotation.x || ''}</span><br/>
+                    <span>y: {rotation.y || ''}</span><br/>
+                    <span>z: {rotation.z || ''}</span><br/>
+                </p>
+            </div>
 
             {/* slides */}
             {sections.map((content, index) => {

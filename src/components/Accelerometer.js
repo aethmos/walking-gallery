@@ -10,7 +10,11 @@ const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFr
     useEffect(() => {
         if (!sensor) {
             if ((typeof window !== 'undefined') && ('Accelerometer' in window)) {
-                const instance = new window.Accelerometer({frequency, referenceFrame});
+                let instance;
+                if ('Accelerometer' in window)
+                    instance = new window.Accelerometer({frequency, referenceFrame});
+                if ('LinearAccelerationSensor' in window)
+                    instance = new window.LinearAccelerationSensor({frequency, referenceFrame});
                 setSensor(instance);
                 console.log('acceleration sensor | initialized');
                 console.log(instance);
@@ -55,7 +59,10 @@ const Accelerometer = (props) => {
                 alpha,
                 beta,
                 gamma,
-                turning: (beta + gamma) / 2.0
+                turning: (beta + gamma) / 2.0,
+                x: JSON.stringify(event.acceleration.x),
+                y: JSON.stringify(event.acceleration.y),
+                z: JSON.stringify(event.acceleration.z)
             });
         } else {
             resetRotation();
