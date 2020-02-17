@@ -59,24 +59,26 @@ const Slider = ({
     // navigation: step in/out
     const handleStepInOutAvg = useCallback((stepInOutValue) => {
         setStepInOutAvg(stepInOutValue);
-        if ((!insideSection) && (stepInOutValue > (stepInOutThreshold))) {
+        if (stepInOutValue > stepInOutThreshold) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
-            enterCurrentSection();
+            if (!insideSection) {
+                enterCurrentSection();
 
-            console.log('go to current section with acceleration values:');
-            console.log(acceleration);
-            setAlert('go to current section');
-
-        } else if ((insideSection) && (stepInOutValue < -(stepInOutThreshold))) {
+                console.log('go to current section with acceleration values:');
+                console.log(acceleration);
+                setAlert('go to current section');
+            }
+        } else if (stepInOutValue < -stepInOutThreshold) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
-            navigateHome();
+            if (insideSection) {
+                navigateHome();
 
-            console.log('go to homepage with acceleration values:');
-            console.log(acceleration);
-            setAlert('go to homepage');
-
+                console.log('go to homepage with acceleration values:');
+                console.log(acceleration);
+                setAlert('go to homepage');
+            }
         } else setListening(true);
     });
 
@@ -85,7 +87,7 @@ const Slider = ({
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
 
-            const stepInOut = -acceleration.distanceZ * (2/3.0) + (1/3.0) * acceleration.distanceY;
+            const stepInOut = -acceleration.distanceZ * (2 / 3.0) + (1 / 3.0) * acceleration.distanceY;
             const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
 
             if (queue.length >= stepInOutBufferMin) {
