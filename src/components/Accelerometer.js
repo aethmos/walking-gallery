@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 
 let accelerationReset;
-let accelerationStart = null;
+let accelerationPrevTimestamp = null;
 
 const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFrame = 'screen'}) => {
     const [sensor, setSensor] = useState(null);
@@ -109,25 +109,27 @@ const Accelerometer = (props) => {
         if (accelerationChanged) {
             clearTimeout(accelerationReset);
 
-            console.log(`old | ${accelerationStart} || new | ${timestamp}`);
+            // console.log(`old | ${accelerationStart} || new | ${timestamp}`);
             const centimetersTravelled = (accelerationValue, seconds) => 50 * accelerationValue * seconds * seconds;
 
-            if (accelerationStart)
-                console.log(`secondsAfterChange: ${(timestamp - accelerationStart) / 1000.0}`);
-            const secondsAfterChange = accelerationStart ? ((timestamp - accelerationStart) / 1000.0) : 0;
+            if (accelerationPrevTimestamp)
+                console.log(`secondsAfterChange: ${(timestamp - accelerationPrevTimestamp) / 1000.0}`);
+            const secondsSinceLastChange = accelerationPrevTimestamp ? ((timestamp - accelerationPrevTimestamp) / 1000.0) : 0;
 
-            accelerationStart = timestamp;
+            accelerationPrevTimestamp = timestamp;
 
-            const distances = secondsAfterChange < 0.3 ?
-                {
-                    distanceX: centimetersTravelled(newAcceleration.x, secondsAfterChange),
-                    distanceY: centimetersTravelled(newAcceleration.y, secondsAfterChange),
-                    distanceZ: centimetersTravelled(newAcceleration.z, secondsAfterChange),
+            const distances = 0 < secondsSinceLastChange < 0.5
+                ? {
+                    distanceX: centimetersTravelled(newAcceleration.x, secondsSinceLastChange),
+                    distanceY: centimetersTravelled(newAcceleration.y, secondsSinceLastChange),
+                    distanceZ: centimetersTravelled(newAcceleration.z, secondsSinceLastChange),
                 } : {
                     distanceX: 0,
                     distanceY: 0,
                     distanceZ: 0,
                 };
+            console.log(`${newAcceleration.x} - ${newAcceleration.y} - ${newAcceleration.z}`);
+            console.log(`${distances.distanceX} - ${distances.distanceY} - ${distances.distanceZ}`);
 
             setAcceleration({
                 ...newAcceleration,
