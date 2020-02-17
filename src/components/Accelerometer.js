@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 
 let accelerationReset;
 let accelerationPrevTimestamp = null;
+let orientation = null;
 
 const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFrame = 'screen'}) => {
     const [sensor, setSensor] = useState(null);
@@ -44,7 +45,7 @@ const Accelerometer = (props) => {
 
     const sensor = useAccelerationSensor({frequency: 20, sensorActive});
 
-    const [orientation, setOrientation] = useState('portrait-primary');
+    // const [orientation, setOrientation] = useState('portrait-primary');
     const [rotation, setRotation] = useState({alpha: 0, beta: 0, gamma: 0, turning: 0});
     const resetRotation = useCallback(() => setRotation({alpha: 0, beta: 0, gamma: 0, turning: 0}), [setRotation]);
 
@@ -169,7 +170,7 @@ const Accelerometer = (props) => {
 
 
     const handleOrientation = useCallback(() => {
-        setOrientation(window.screen.orientation.type);
+        orientation = window.screen.orientation.type;
     });
 
     useEffect(() => {
