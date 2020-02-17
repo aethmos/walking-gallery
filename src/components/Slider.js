@@ -8,13 +8,13 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let stepInOutCooldown;
-const stepInOutThreshold = 5;
+const stepInOutThreshold = 50;
 const stepInOutBufferMax = 15;
-const stepInOutBufferMin = 10;
+const stepInOutBufferMin = 15;
 const stepInOutCooldownMilliseconds = 3000;
 
 let turningCooldown;
-const turningThreshold = 25;
+const turningThreshold = 40;
 const turningBufferMax = 15;
 const turningBufferMin = 10;
 const turningCooldownMilliseconds = 1000;
@@ -87,7 +87,8 @@ const Slider = ({
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
 
-            const stepInOut = -acceleration.distanceZ * (2 / 3.0) + (1 / 3.0) * acceleration.distanceY;
+            // const stepInOut = -acceleration.distanceZ * (2 / 3.0) + (1 / 3.0) * acceleration.distanceY;
+            const stepInOut = acceleration.stepInOut;
             const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
 
             if (queue.length >= stepInOutBufferMin) {
