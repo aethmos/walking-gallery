@@ -55,16 +55,22 @@ const Accelerometer = (props) => {
         function getTurningFactor(alpha, beta, gamma) {
             switch(orientation) {
                 // portrait
+                case 'portrait':
                 case 'portrait-primary':
+                    window.document.exitFullscreen();
                     return (beta + gamma) / 2.0;
                 // portrait - upside down
                 case 'portrait-secondary':
+                    window.document.exitFullscreen();
                     return (-beta - gamma) / 2.0;
                 // landscape - bottom is on the right
+                case 'landscape':
                 case 'landscape-primary':
+                    window.document.documentElement.requestFullscreen();
                     return (alpha + gamma) / 2.0;
                 // landscape - bottom is on the left
                 case 'landscape-secondary':
+                    window.document.documentElement.requestFullscreen();
                     return (-alpha - gamma) / 2.0;
                 default:
                     return (beta + gamma) / 2.0;
@@ -112,31 +118,34 @@ const Accelerometer = (props) => {
             clearTimeout(accelerationReset);
 
             // console.log(`old | ${accelerationStart} || new | ${timestamp}`);
-            const centimetersTravelled = (accelerationValue, seconds) => 50 * accelerationValue * seconds * seconds;
+            // const centimetersTravelled = (accelerationValue, seconds) => 50 * accelerationValue * seconds * seconds;
 
-            if (accelerationPrevTimestamp)
-                console.log(`secondsAfterChange: ${(timestamp - accelerationPrevTimestamp) / 1000.0}`);
-            const secondsSinceLastChange = accelerationPrevTimestamp ? ((timestamp - accelerationPrevTimestamp) / 1000.0) : 0;
+            // if (accelerationPrevTimestamp)
+            //     console.log(`secondsAfterChange: ${(timestamp - accelerationPrevTimestamp) / 1000.0}`);
+            // const secondsSinceLastChange = accelerationPrevTimestamp ? ((timestamp - accelerationPrevTimestamp) / 1000.0) : 0;
 
             accelerationPrevTimestamp = timestamp;
 
-            const distances = 0 < secondsSinceLastChange < 0.3
-                ? {
-                    distanceX: centimetersTravelled(newAcceleration.x, secondsSinceLastChange),
-                    distanceY: centimetersTravelled(newAcceleration.y, secondsSinceLastChange),
-                    distanceZ: centimetersTravelled(newAcceleration.z, secondsSinceLastChange),
-                } : {
-                    distanceX: 0,
-                    distanceY: 0,
-                    distanceZ: 0,
-                };
-            console.log(`${newAcceleration.x} - ${newAcceleration.y} - ${newAcceleration.z}`);
-            console.log(`${distances.distanceX} - ${distances.distanceY} - ${distances.distanceZ}`);
+            // const distances = 0 < secondsSinceLastChange < 0.3
+            //     ? {
+            //         distanceX: centimetersTravelled(newAcceleration.x, secondsSinceLastChange),
+            //         distanceY: centimetersTravelled(newAcceleration.y, secondsSinceLastChange),
+            //         distanceZ: centimetersTravelled(newAcceleration.z, secondsSinceLastChange),
+            //     } : {
+            //         distanceX: 0,
+            //         distanceY: 0,
+            //         distanceZ: 0,
+            //     };
+            // console.log(`${newAcceleration.x} - ${newAcceleration.y} - ${newAcceleration.z}`);
+            // console.log(`${distances.distanceX} - ${distances.distanceY} - ${distances.distanceZ}`);
+            // const stepping = (-distances.distanceZ * (2/3.0) + (1/3.0) * distances.distanceY);
+            const stepping = (-newAcceleration.z * (2/3) + (1/3) * newAcceleration.y);
+            console.log(`stepping | ${stepping}`);
 
             setAcceleration({
                 ...newAcceleration,
-                ...distances,
-                stepInOut: (-distances.distanceZ * (2/3.0) + (1/3.0) * distances.distanceY)
+                // ...distances,
+                stepInOut: stepping
             });
             accelerationReset = setTimeout(resetAcceleration, 300);
         }
