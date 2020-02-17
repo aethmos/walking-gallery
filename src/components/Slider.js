@@ -84,12 +84,13 @@ const Slider = ({
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
             setListening(false);
-            let queue = [acceleration, ...stepInOutEvents];
-            if (queue.length > stepInOutBufferMax) queue = stepInOutEvents.slice(0, setStepInOutEvents.length - 1);
+
+            const stepInOut = -acceleration.distanceZ * (2/3.0) + (1/3.0) * acceleration.distanceY;
+            const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
             setStepInOutEvents(queue);
 
             if (queue.length >= stepInOutBufferMin) {
-                setStepInOutAvg(queue.map(event => event.stepInOut).reduce((a, b) => a + b) / queue.length);
+                setStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
             } else setListening(true);
         }
     }, [acceleration, listening, sensorActive, setStepInOutAvg]);
@@ -123,15 +124,14 @@ const Slider = ({
             clearTimeout(turningCooldown);
             setListening(false);
 
-            let queue = [rotation, ...turningEvents];
-            if (queue.length > stepInOutBufferMax) queue = turningEvents.slice(0, setStepInOutEvents.length - 1);
+            const queue = [rotation, ...turningEvents.slice(0, turningBufferMax)];
             setTurningEvents(queue);
 
-            if (queue.length >= stepInOutBufferMin) {
+            if (queue.length >= turningBufferMin) {
                 setTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
             } else setListening(true);
         }
-    }, [rotation, listening, sensorActive]);
+    }, [rotation, listening, sensorActive, setTurningAvg]);
 
     // keyboard and mouse navigation
     useEffect(() => {
