@@ -8,13 +8,13 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let stepInOutCooldown;
-const stepInOutThreshold = 10;
+const stepInOutThreshold = 5;
 const stepInOutBufferMax = 15;
 const stepInOutBufferMin = 10;
 const stepInOutCooldownMilliseconds = 3000;
 
 let turningCooldown;
-const turningThreshold = 50;
+const turningThreshold = 25;
 const turningBufferMax = 15;
 const turningBufferMin = 10;
 const turningCooldownMilliseconds = 1000;
