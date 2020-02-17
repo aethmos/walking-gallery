@@ -8,7 +8,7 @@ import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
 let stepInOutCooldown;
-const stepInOutThreshold = 50;
+const stepInOutThreshold = 30;
 const stepInOutBufferMax = 15;
 const stepInOutBufferMin = 15;
 const stepInOutCooldownMilliseconds = 3000;
@@ -59,7 +59,7 @@ const Slider = ({
     // navigation: step in/out
     const handleStepInOutAvg = useCallback((stepInOutValue) => {
         setStepInOutAvg(stepInOutValue);
-        if (stepInOutValue > stepInOutThreshold) {
+        if (stepInOutValue < -stepInOutThreshold) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
             if (!insideSection) {
@@ -69,7 +69,7 @@ const Slider = ({
                 console.log(acceleration);
                 setAlert('go to current section');
             }
-        } else if (stepInOutValue < -stepInOutThreshold) {
+        } else if (stepInOutValue > stepInOutThreshold) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
             if (insideSection) {
