@@ -84,15 +84,17 @@ const Slider = ({
     useEffect(() => {
         if (listening && sensorActive) {
             clearTimeout(stepInOutCooldown);
-            setListening(false);
 
             const stepInOut = -acceleration.distanceZ * (2/3.0) + (1/3.0) * acceleration.distanceY;
             const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
-            setStepInOutEvents(queue);
 
             if (queue.length >= stepInOutBufferMin) {
+                setListening(false);
                 handleStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
-            } else setListening(true);
+                setStepInOutEvents([]);
+            } else {
+                setStepInOutEvents(queue);
+            }
         }
     }, [acceleration, listening, sensorActive, setStepInOutAvg]);
 
@@ -124,14 +126,16 @@ const Slider = ({
     useEffect(() => {
         if (listening && sensorActive) {
             clearTimeout(turningCooldown);
-            setListening(false);
 
             const queue = [rotation, ...turningEvents.slice(0, turningBufferMax)];
-            setTurningEvents(queue);
 
             if (queue.length >= turningBufferMin) {
+                setListening(false);
                 handleTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
-            } else setListening(true);
+                setTurningEvents([]);
+            } else {
+                setTurningEvents(queue);
+            }
         }
     }, [rotation, listening, sensorActive]);
 
