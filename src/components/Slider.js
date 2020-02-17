@@ -57,8 +57,9 @@ const Slider = ({
     }, []);
 
     // navigation: step in/out
-    useEffect(() => {
-        if ((!insideSection) && (stepInOutAvg > (stepInOutThreshold))) {
+    const handleStepInOutAvg = useCallback((stepInOutValue) => {
+        setStepInOutAvg(stepInOutValue);
+        if ((!insideSection) && (stepInOutValue > (stepInOutThreshold))) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
             enterCurrentSection();
@@ -67,7 +68,7 @@ const Slider = ({
             console.log(acceleration);
             setAlert('go to current section');
 
-        } else if ((insideSection) && (stepInOutAvg < -(stepInOutThreshold))) {
+        } else if ((insideSection) && (stepInOutValue < -(stepInOutThreshold))) {
             stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
             navigateHome();
@@ -77,7 +78,7 @@ const Slider = ({
             setAlert('go to homepage');
 
         } else setListening(true);
-    }, [stepInOutAvg, enterCurrentSection, navigateHome, insideSection]);
+    });
 
     // step in/out average calculation and event queue rollover
     useEffect(() => {
@@ -90,15 +91,16 @@ const Slider = ({
             setStepInOutEvents(queue);
 
             if (queue.length >= stepInOutBufferMin) {
-                setStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
+                handleStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
             } else setListening(true);
         }
     }, [acceleration, listening, sensorActive, setStepInOutAvg]);
 
     // navigation: turn left/right
-    useEffect(() => {
+    const handleTurningAvg = useCallback((turningValue) => {
+        setTurningAvg(turningValue);
         // next or previous slide
-        if (turningAvg < -(turningThreshold)) {
+        if (turningValue < -(turningThreshold)) {
             turningCooldown = setTimeout(() => setListening(true), turningCooldownMilliseconds);
 
             nextSlide();
@@ -107,7 +109,7 @@ const Slider = ({
             console.log(rotation);
             setAlert('go to next slide');
 
-        } else if (turningAvg > (turningThreshold)) {
+        } else if (turningValue > (turningThreshold)) {
             turningCooldown = setTimeout(() => setListening(true), turningCooldownMilliseconds);
 
             prevSlide();
@@ -116,7 +118,7 @@ const Slider = ({
             console.log(rotation);
             setAlert('go to previous slide');
         } else setListening(true);
-    }, [turningAvg, prevSlide, nextSlide]);
+    });
 
     // turning average calculation and event queue rollover
     useEffect(() => {
@@ -128,10 +130,10 @@ const Slider = ({
             setTurningEvents(queue);
 
             if (queue.length >= turningBufferMin) {
-                setTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
+                handleTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
             } else setListening(true);
         }
-    }, [rotation, listening, sensorActive, setTurningAvg]);
+    }, [rotation, listening, sensorActive]);
 
     // keyboard and mouse navigation
     useEffect(() => {
