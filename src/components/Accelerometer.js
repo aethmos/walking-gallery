@@ -53,6 +53,7 @@ const Accelerometer = (props) => {
 
     const handleRotation = useCallback((event) => {
         function getTurningFactor(alpha, beta, gamma) {
+            console.log(orientation);
             switch(orientation) {
                 // portrait
                 case 'portrait':
@@ -167,9 +168,9 @@ const Accelerometer = (props) => {
     }, [sensor]);
 
 
-    function handleOrientation() {
+    const handleOrientation = useCallback(() => {
         setOrientation(window.screen.orientation.type);
-    }
+    });
 
     useEffect(() => {
         if (sensorActive) {
