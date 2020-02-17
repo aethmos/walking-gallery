@@ -55,24 +55,20 @@ const Accelerometer = (props) => {
     const handleRotation = useCallback((event) => {
         function getTurningFactor(alpha, beta, gamma) {
             console.log(orientation);
-            switch(orientation) {
+            switch (orientation) {
                 // portrait
                 case 'portrait':
                 case 'portrait-primary':
-                    window.document.exitFullscreen();
                     return (beta + gamma) / 2.0;
                 // portrait - upside down
                 case 'portrait-secondary':
-                    window.document.exitFullscreen();
                     return (-beta - gamma) / 2.0;
                 // landscape - bottom is on the right
                 case 'landscape':
                 case 'landscape-primary':
-                    window.document.documentElement.requestFullscreen();
                     return (alpha + gamma) / 2.0;
                 // landscape - bottom is on the left
                 case 'landscape-secondary':
-                    window.document.documentElement.requestFullscreen();
                     return (-alpha - gamma) / 2.0;
                 default:
                     return (beta + gamma) / 2.0;
@@ -141,7 +137,7 @@ const Accelerometer = (props) => {
             // console.log(`${newAcceleration.x} - ${newAcceleration.y} - ${newAcceleration.z}`);
             // console.log(`${distances.distanceX} - ${distances.distanceY} - ${distances.distanceZ}`);
             // const stepping = (-distances.distanceZ * (2/3.0) + (1/3.0) * distances.distanceY);
-            const stepping = (-newAcceleration.z * (2/3) + (1/3) * newAcceleration.y);
+            const stepping = (-newAcceleration.z * (2 / 3) + (1 / 3) * newAcceleration.y);
             console.log(`stepping | ${stepping}`);
 
             setAcceleration({
@@ -171,6 +167,12 @@ const Accelerometer = (props) => {
 
     const handleOrientation = useCallback(() => {
         orientation = window.screen.orientation.type;
+        if (orientation.startsWith('landscape'))
+            window.document.documentElement.requestFullscreen();
+        else
+            window.document.exitFullscreen();
+
+
     });
 
     useEffect(() => {
