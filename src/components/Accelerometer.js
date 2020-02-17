@@ -9,10 +9,8 @@ const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFr
     // init
     useEffect(() => {
         if (!sensor) {
-            if ((typeof window !== 'undefined') && ('Accelerometer' in window)) {
+            if ((typeof window !== 'undefined') && ('LinearAccelerationSensor' in window)) {
                 let instance;
-                if ('Accelerometer' in window)
-                    instance = new window.Accelerometer({frequency, referenceFrame});
                 if ('LinearAccelerationSensor' in window)
                     instance = new window.LinearAccelerationSensor({frequency, referenceFrame});
                 setSensor(instance);
