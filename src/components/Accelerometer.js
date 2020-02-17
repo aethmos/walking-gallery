@@ -46,6 +46,7 @@ const Accelerometer = (props) => {
 
     const sensor = useAccelerationSensor({frequency: 20, sensorActive});
 
+    const [orientation, setOrientation] = useState('portrait');
     const [rotation, setRotation] = useState({alpha: 0, beta: 0, gamma: 0, turning: 0});
     const resetRotation = useCallback(() => setRotation({alpha: 0, beta: 0, gamma: 0, turning: 0}), [setRotation]);
 
@@ -53,13 +54,30 @@ const Accelerometer = (props) => {
     const resetAcceleration = useCallback(() => setAcceleration({x: 0, y: 0, z: 0, distanceX: 0, distanceY: 0, distanceZ: 0, stepInOut: 0}), []);
 
     const handleRotation = useCallback((event) => {
+        function getTurningFactor(alpha, beta, gamma) {
+            switch(orientation) {
+                // portrait
+                case 'portrait-primary':
+                    return (beta + gamma) / 2.0;
+                // portrait - upside down
+                case 'portrait-secondary':
+                    return (-beta - gamma) / 2.0;
+                // landscape - bottom is on the right
+                case 'landscape-primary':
+                    return (alpha + gamma) / 2.0;
+                // landscape - bottom is on the left
+                case 'landscape-secondary':
+                    return (-alpha - gamma) / 2.0;
+            }
+        }
+
         if (event.rotationRate) {
             let {alpha, beta, gamma} = event.rotationRate;
             setRotation({
                 alpha,
                 beta,
                 gamma,
-                turning: (beta + gamma) / 2.0,
+                turning: getTurningFactor(alpha, beta, gamma),
                 x: JSON.stringify(event.acceleration.x),
                 y: JSON.stringify(event.acceleration.y),
                 z: JSON.stringify(event.acceleration.z)
@@ -138,11 +156,17 @@ const Accelerometer = (props) => {
     }, [sensor]);
 
 
+    function handleOrientation() {
+        setOrientation(window.screen.orientation.type);
+    }
+
     useEffect(() => {
         if (sensorActive) {
-            window.addEventListener('devicemotion', handleRotation);
+            window.screen.orientation.addEventListener('change', handleRotation);
+            window.addEventListener('orientationchange', handleOrientation);
             return () => {
-                window.removeEventListener('devicemotion', handleRotation);
+                window.screen.orientation.removeEventListener('change', handleRotation);
+                window.removeEventListener('orientationchange', handleOrientation);
             }
         } else {
             resetRotation();
