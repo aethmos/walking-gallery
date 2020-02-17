@@ -44,7 +44,7 @@ const Accelerometer = (props) => {
 
     const sensor = useAccelerationSensor({frequency: 20, sensorActive});
 
-    const [orientation, setOrientation] = useState('portrait');
+    const [orientation, setOrientation] = useState('portrait-primary');
     const [rotation, setRotation] = useState({alpha: 0, beta: 0, gamma: 0, turning: 0});
     const resetRotation = useCallback(() => setRotation({alpha: 0, beta: 0, gamma: 0, turning: 0}), [setRotation]);
 
@@ -66,6 +66,8 @@ const Accelerometer = (props) => {
                 // landscape - bottom is on the left
                 case 'landscape-secondary':
                     return (-alpha - gamma) / 2.0;
+                default:
+                    return (beta + gamma) / 2.0;
             }
         }
 
@@ -118,7 +120,7 @@ const Accelerometer = (props) => {
 
             accelerationPrevTimestamp = timestamp;
 
-            const distances = 0 < secondsSinceLastChange < 0.5
+            const distances = 0 < secondsSinceLastChange < 0.3
                 ? {
                     distanceX: centimetersTravelled(newAcceleration.x, secondsSinceLastChange),
                     distanceY: centimetersTravelled(newAcceleration.y, secondsSinceLastChange),
@@ -162,11 +164,11 @@ const Accelerometer = (props) => {
 
     useEffect(() => {
         if (sensorActive) {
-            window.screen.orientation.addEventListener('change', handleRotation);
-            window.addEventListener('orientationchange', handleOrientation);
+            window.screen.orientation.addEventListener('change', handleOrientation);
+            window.addEventListener('devicemotion', handleRotation);
             return () => {
-                window.screen.orientation.removeEventListener('change', handleRotation);
-                window.removeEventListener('orientationchange', handleOrientation);
+                window.screen.orientation.removeEventListener('change', handleOrientation);
+                window.removeEventListener('devicemotion', handleRotation);
             }
         } else {
             resetRotation();
