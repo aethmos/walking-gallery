@@ -7,8 +7,8 @@ import rightArrow from "@iconify/icons-mdi-light/chevron-right";
 import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
-const stepInThreshold = 15;
-const stepOutThreshold = 25;
+const stepInThreshold = 10;
+const stepOutThreshold = 10;
 const stepInOutBufferMax = 10;
 const stepInOutBufferMin = 10;
 const stepInOutCooldownMilliseconds = 3000;
