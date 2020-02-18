@@ -7,17 +7,22 @@ import rightArrow from "@iconify/icons-mdi-light/chevron-right";
 import Accelerometer from "./Accelerometer";
 import {wrap} from "@popmotion/popcorn";
 
-let stepInOutCooldown;
-const stepInOutThreshold = 30;
-const stepInOutBufferMax = 15;
-const stepInOutBufferMin = 15;
+const stepInThreshold = 15;
+const stepOutThreshold = 25;
+const stepInOutBufferMax = 10;
+const stepInOutBufferMin = 10;
 const stepInOutCooldownMilliseconds = 3000;
+const stepInOutDeadlineMilliseconds = 3000;
+let stepInOutCooldown;
+let stepInOutDeadline;
+let steppingIn = false;
+let steppingOut = false;
 
-let turningCooldown;
 const turningThreshold = 40;
 const turningBufferMax = 15;
 const turningBufferMin = 10;
 const turningCooldownMilliseconds = 1000;
+let turningCooldown;
 
 const Slider = ({
                     className = styles.slider,
@@ -58,28 +63,53 @@ const Slider = ({
 
     // navigation: step in/out
     const handleStepInOutAvg = useCallback((stepInOutValue) => {
+        setListening(false);
         setStepInOutAvg(stepInOutValue);
-        if (stepInOutValue < -stepInOutThreshold) {
-            stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
 
-            if (!insideSection) {
+        // detect step forwards
+        if (!insideSection) {
+            // deceleration
+            if (steppingIn && stepInOutValue < -stepOutThreshold) {
+                clearTimeout(stepInOutDeadline);
+                steppingIn = false;
+                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
+                setStepInOutEvents([]);
+
                 enterCurrentSection();
 
                 console.log('go to current section with acceleration values:');
                 console.log(acceleration);
                 setAlert('go to current section');
+                return
             }
-        } else if (stepInOutValue > stepInOutThreshold) {
-            stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
+            // acceleration forwards
+            else if (stepInOutValue > stepInThreshold)
+                setListening(true);
+                steppingIn = true;
+                stepInOutDeadline = setTimeout(() => steppingIn = false, stepInOutDeadlineMilliseconds);
 
-            if (insideSection) {
+        // detect step backwards
+        } else {
+            // deceleration
+            if (steppingOut && stepInOutValue > stepOutThreshold) {
+                clearTimeout(stepInOutDeadline);
+                steppingOut = false;
+                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
+                setStepInOutEvents([]);
+
                 navigateHome();
 
                 console.log('go to homepage with acceleration values:');
                 console.log(acceleration);
                 setAlert('go to homepage');
+                return
             }
-        } else setListening(true);
+            // acceleration backwards
+            else if (stepInOutValue < -stepInThreshold)
+                setListening(true);
+                steppingOut = true;
+                stepInOutDeadline = setTimeout(() => steppingOut = false, stepInOutDeadlineMilliseconds);
+        }
     });
 
     // step in/out average calculation and event queue rollover
@@ -92,9 +122,7 @@ const Slider = ({
             const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
 
             if (queue.length >= stepInOutBufferMin) {
-                setListening(false);
                 handleStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
-                setStepInOutEvents([]);
             } else {
                 setStepInOutEvents(queue);
             }
@@ -191,7 +219,7 @@ const Slider = ({
                     <span>distX: {Math.floor(acceleration.distanceX * 1000) / 1000}</span><br/>
                     <span>distY: {Math.floor(acceleration.distanceY * 1000) / 1000}</span><br/>
                     <span>distZ: {Math.floor(acceleration.distanceZ * 1000) / 1000}</span><br/>
-                    <span>stepping: {Math.floor(stepInOutAvg * 1000) / 1000} / {stepInOutThreshold}</span><br/>
+                    <span>stepping: {Math.floor(stepInOutAvg * 1000) / 1000} / {stepOutThreshold}</span><br/>
                 </p>
                 <h4>Rotation</h4>
                 <p>
