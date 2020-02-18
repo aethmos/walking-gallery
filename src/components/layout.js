@@ -84,6 +84,9 @@ const Layout = ({children, title, image, showHomeButton = true}) => {
                     <meta name="twitter:title" content={title}/>
                     <meta name="twitter:description" content={meta.description}/>
                     {image ? <meta name="twitter:image" content={image}/> : null}
+
+                    {/* make title bar match the header */}
+                    <meta name="theme-color" content="#ffffff" />
                 </Helmet>
 
                 <Header title={title || meta.title} {...{showHomeButton, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}}/>
