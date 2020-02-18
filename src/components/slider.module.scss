@@ -61,6 +61,10 @@
 
   border-bottom-left-radius: $size__border_radius;
   border-bottom-right-radius: $size__border_radius;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    border-top-left-radius: $size__border_radius;
+    border-top-right-radius: $size__border_radius;
+  }
 
   opacity: 0;
   @media (max-height: $device__xsmall) and (orientation: landscape) {
@@ -76,18 +80,38 @@
 
   background-size: cover;
   background-position: center center;
+
+  border-bottom-left-radius: $size__border_radius;
+  border-bottom-right-radius: $size__border_radius;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    border-top-left-radius: $size__border_radius;
+    border-top-right-radius: $size__border_radius;
+  }
 }
 
 .panel {
   position: absolute;
   left: 0;
   right: 0;
+
   bottom: 0;
+  transition: bottom 0.2s ease-out;
+
+  border-bottom-left-radius: $size__border_radius;
+  border-bottom-right-radius: $size__border_radius;
+  @media (max-height: $device__xsmall) and (orientation: landscape) {
+    bottom: -100%;
+    transition: bottom 0.2s ease-out;
+
+    border-top-left-radius: $size__border_radius;
+    border-top-right-radius: $size__border_radius;
+  }
 
   margin: 0 auto;
   padding: 25px 0;
 
   background: transparentize($color__background, 0.15);
+
   h3 {
     font-size: x-large;
     color: $color__foreground_bold;
@@ -98,12 +122,6 @@
     margin-top: 5px;
     font-size: small;
     //text-transform: uppercase;
-  }
-
-  transition: bottom 0.2s ease-out;
-  @media (max-height: $device__xsmall) and (orientation: landscape) {
-    bottom: -100%;
-    transition: bottom 0.2s ease-out;
   }
 }
 
