@@ -18,7 +18,7 @@ let stepInOutDeadline;
 let steppingIn = false;
 let steppingOut = false;
 
-const turningThreshold = 40;
+const turningThreshold = 35;
 const turningBufferMax = 15;
 const turningBufferMin = 10;
 const turningCooldownMilliseconds = 1000;
