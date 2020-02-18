@@ -9,7 +9,7 @@ import {wrap} from "@popmotion/popcorn";
 
 const stepInThreshold = 10;
 const stepOutThreshold = 5;
-const stepInOutBufferMax = 10;
+const stepInOutBufferMax = 15;
 const stepInOutBufferMin = 10;
 const stepInOutCooldownMilliseconds = 3000;
 const stepInOutDeadlineMilliseconds = 3000;
@@ -74,7 +74,6 @@ const Slider = ({
                 clearTimeout(stepInOutDeadline);
                 steppingIn = false;
                 stepInOutCooldown = setTimeout(() => setListeningToStepping(true), stepInOutCooldownMilliseconds);
-                setStepInOutEvents([]);
 
                 enterCurrentSection();
 
@@ -96,7 +95,6 @@ const Slider = ({
                 clearTimeout(stepInOutDeadline);
                 steppingOut = false;
                 stepInOutCooldown = setTimeout(() => setListeningToStepping(true), stepInOutCooldownMilliseconds);
-                setStepInOutEvents([]);
 
                 navigateHome();
 
@@ -125,6 +123,7 @@ const Slider = ({
 
             if (queue.length >= stepInOutBufferMin) {
                 handleStepInOutAvg(queue.reduce((a, b) => a + b) / queue.length);
+                setStepInOutEvents([]);
             } else {
                 setStepInOutEvents(queue);
             }
@@ -133,6 +132,7 @@ const Slider = ({
 
     // navigation: turn left/right
     const handleTurningAvg = useCallback((turningValue) => {
+        setListeningToTurning(false);
         setTurningAvg(turningValue);
         // next or previous slide
         if (turningValue < -(turningThreshold)) {
@@ -163,7 +163,6 @@ const Slider = ({
             const queue = [rotation, ...turningEvents.slice(0, turningBufferMax)];
 
             if (queue.length >= turningBufferMin) {
-                setListeningToTurning(false);
                 handleTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
                 setTurningEvents([]);
             } else {
