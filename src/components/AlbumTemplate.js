@@ -7,7 +7,7 @@ const AlbumTemplate = ({data: {category, images}}) => {
     const totalImages = images.edges.length;
     const sections = images.edges.map((edge, index) => ({
         image: edge.node,
-        text: `${index + 1} / ${totalImages}`
+        text: `${index + 1} / ${totalImages - 1}`
     }));
 
     return (
