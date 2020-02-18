@@ -29,7 +29,6 @@
     "gatsby-source-filesystem": "^2.1.46",
     "gatsby-transformer-json": "^2.2.25",
     "gatsby-transformer-sharp": "^2.3.13",
-    "infinite-react-carousel": "^1.2.9",
     "intersection-observer": "^0.7.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
