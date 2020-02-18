@@ -47,7 +47,8 @@ const Slider = ({
     const leftArrowElement = useRef();
     const rightArrowElement = useRef();
 
-    const [listening, setListening] = useState(true);
+    const [listeningToTurning, setListeningToTurning] = useState(true);
+    const [listeningToStepping, setListeningToStepping] = useState(true);
 
     const wrapped = useCallback(number => wrap(0, totalSlides - 1, number), [totalSlides]);
     const nextSlide = useCallback(() => setCurrentIndex(wrapped(currentIndex + 1)), [setCurrentIndex, currentIndex, wrapped]);
@@ -63,7 +64,7 @@ const Slider = ({
 
     // navigation: step in/out
     const handleStepInOutAvg = useCallback((stepInOutValue) => {
-        setListening(false);
+        setListeningToStepping(false);
         setStepInOutAvg(stepInOutValue);
 
         // detect step forwards
@@ -72,7 +73,7 @@ const Slider = ({
             if (steppingIn && stepInOutValue < -stepOutThreshold) {
                 clearTimeout(stepInOutDeadline);
                 steppingIn = false;
-                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
+                stepInOutCooldown = setTimeout(() => setListeningToStepping(true), stepInOutCooldownMilliseconds);
                 setStepInOutEvents([]);
 
                 enterCurrentSection();
@@ -80,13 +81,13 @@ const Slider = ({
                 console.log('go to current section with acceleration values:');
                 console.log(acceleration);
                 setAlert('go to current section');
-                return
+                return;
             }
             // acceleration forwards
-            else if (stepInOutValue > stepInThreshold)
-                setListening(true);
+            else if (stepInOutValue > stepInThreshold) {
                 steppingIn = true;
                 stepInOutDeadline = setTimeout(() => steppingIn = false, stepInOutDeadlineMilliseconds);
+            }
 
         // detect step backwards
         } else {
@@ -94,7 +95,7 @@ const Slider = ({
             if (steppingOut && stepInOutValue > stepOutThreshold) {
                 clearTimeout(stepInOutDeadline);
                 steppingOut = false;
-                stepInOutCooldown = setTimeout(() => setListening(true), stepInOutCooldownMilliseconds);
+                stepInOutCooldown = setTimeout(() => setListeningToStepping(true), stepInOutCooldownMilliseconds);
                 setStepInOutEvents([]);
 
                 navigateHome();
@@ -102,19 +103,20 @@ const Slider = ({
                 console.log('go to homepage with acceleration values:');
                 console.log(acceleration);
                 setAlert('go to homepage');
-                return
+                return;
             }
             // acceleration backwards
-            else if (stepInOutValue < -stepInThreshold)
-                setListening(true);
+            else if (stepInOutValue < -stepInThreshold) {
                 steppingOut = true;
                 stepInOutDeadline = setTimeout(() => steppingOut = false, stepInOutDeadlineMilliseconds);
+            }
         }
+        setListeningToStepping(true);
     });
 
     // step in/out average calculation and event queue rollover
     useEffect(() => {
-        if (listening && sensorActive) {
+        if (listeningToStepping && sensorActive) {
             clearTimeout(stepInOutCooldown);
 
             // const stepInOut = -acceleration.distanceZ * (2 / 3.0) + (1 / 3.0) * acceleration.distanceY;
@@ -127,14 +129,14 @@ const Slider = ({
                 setStepInOutEvents(queue);
             }
         }
-    }, [acceleration, listening, sensorActive, setStepInOutAvg]);
+    }, [acceleration, listeningToStepping, sensorActive, setStepInOutAvg]);
 
     // navigation: turn left/right
     const handleTurningAvg = useCallback((turningValue) => {
         setTurningAvg(turningValue);
         // next or previous slide
         if (turningValue < -(turningThreshold)) {
-            turningCooldown = setTimeout(() => setListening(true), turningCooldownMilliseconds);
+            turningCooldown = setTimeout(() => setListeningToTurning(true), turningCooldownMilliseconds);
 
             nextSlide();
 
@@ -143,32 +145,32 @@ const Slider = ({
             setAlert('go to next slide');
 
         } else if (turningValue > (turningThreshold)) {
-            turningCooldown = setTimeout(() => setListening(true), turningCooldownMilliseconds);
+            turningCooldown = setTimeout(() => setListeningToTurning(true), turningCooldownMilliseconds);
 
             prevSlide();
 
             console.log('go to previous slide with rotation values:');
             console.log(rotation);
             setAlert('go to previous slide');
-        } else setListening(true);
+        } else setListeningToTurning(true);
     });
 
     // turning average calculation and event queue rollover
     useEffect(() => {
-        if (listening && sensorActive) {
+        if (listeningToTurning && sensorActive) {
             clearTimeout(turningCooldown);
 
             const queue = [rotation, ...turningEvents.slice(0, turningBufferMax)];
 
             if (queue.length >= turningBufferMin) {
-                setListening(false);
+                setListeningToTurning(false);
                 handleTurningAvg(queue.map(event => event.turning).reduce((a, b) => a + b) / queue.length);
                 setTurningEvents([]);
             } else {
                 setTurningEvents(queue);
             }
         }
-    }, [rotation, listening, sensorActive]);
+    }, [rotation, listeningToTurning, sensorActive]);
 
     // keyboard and mouse navigation
     useEffect(() => {
