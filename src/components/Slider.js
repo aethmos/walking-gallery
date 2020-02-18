@@ -221,7 +221,7 @@ const Slider = ({
                     <span>distX: {Math.floor(acceleration.distanceX * 1000) / 1000}</span><br/>
                     <span>distY: {Math.floor(acceleration.distanceY * 1000) / 1000}</span><br/>
                     <span>distZ: {Math.floor(acceleration.distanceZ * 1000) / 1000}</span><br/>
-                    <span>stepping: {Math.floor(stepInOutAvg * 1000) / 1000} / {stepOutThreshold}</span><br/>
+                    <span>stepping: {Math.floor(stepInOutAvg * 1000) / 1000} / {stepInThreshold} >> {stepOutThreshold}</span><br/>
                 </p>
                 <h4>Rotation</h4>
                 <p>
