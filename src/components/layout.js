@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {graphql, StaticQuery} from 'gatsby';
 import Helmet from 'react-helmet';
 import '../assets/sass/global.scss';
-import {Header} from "./header";
+import Header from "./header";
 
 const Layout = ({children, title, image, showHomeButton = true}) => {
     const [sensorActive, setSensorActive] = useState(true);
