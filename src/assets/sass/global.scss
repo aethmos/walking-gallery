@@ -1,7 +1,7 @@
 //@import 'font-awesome.min.css';
 @import 'reset';
 
-// Device Breakpoints.
+// device breakpoints
 $device__xlarge: 1680px;
 $device__large: 1280px;
 $device__medium: 980px;
@@ -9,31 +9,21 @@ $device__small: 736px;
 $device__xsmall: 480px;
 $device__xxsmall: 360px;
 
-// Duration.
+// duration
 $duration__transition: 0.2s;
 $duration__activation: 1s;
 
-// Size.
+// size
 $size__border_radius: 0.25em;
 $size__border_width: 1px;
 
-// Font.
+// font
 $font__family: ("Segoe UI", Arial, Helvetica, sans-serif);
 $font__family_heading: ("Jost*", "Segoe UI", Arial, Helvetica, sans-serif);
 $font__weight: normal;
 $font__weight_bold: bold;
 
-// Accent.
-
-//$color__accent_1: #009975;
-//$color__accent_1_alt: darken($color__accent_1, 10);
-//$color__accent_2: #d9cc3c;
-//$color__accent_2_alt: darken($color__accent_2, 10);
-//$color__accent_3: #58B368;
-//$color__accent_3_alt: darken($color__accent_3, 10);
-//$color__accent_4: #0D3F67;
-//$color__accent_4_alt: darken($color__accent_4, 10);
-
+// accent
 $color__accent_1: #09acb8;
 $color__accent_1_alt: darken($color__accent_1, 10);
 $color__accent_2: #003e53;
@@ -45,7 +35,7 @@ $color__accent_4_alt: darken($color__accent_4, 10);
 $color__accent_5: #d3d5d2;
 $color__accent_5_alt: #d3d5d2;
 
-// Dark.
+// dark
 $color__background: #fff;
 $color__background_alt: darken($color__background, 10);
 

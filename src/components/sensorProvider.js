@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 
 let accelerationReset;
-let accelerationPrevTimestamp = null;
 let orientation = null;
 
 const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFrame = 'screen'}) => {
@@ -40,17 +39,16 @@ const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFr
     return sensor;
 };
 
-const Accelerometer = (props) => {
+const SensorProvider = (props) => {
     let {sensorActive = true, multiplier = 1, children} = props;
 
     const sensor = useAccelerationSensor({frequency: 20, sensorActive});
 
-    // const [orientation, setOrientation] = useState('portrait-primary');
     const [rotation, setRotation] = useState({alpha: 0, beta: 0, gamma: 0, turning: 0});
     const resetRotation = useCallback(() => setRotation({alpha: 0, beta: 0, gamma: 0, turning: 0}), [setRotation]);
 
-    const [acceleration, setAcceleration] = useState({x: 0, y: 0, z: 0, distanceX: 0, distanceY: 0, distanceZ: 0, stepInOut: 0});
-    const resetAcceleration = useCallback(() => setAcceleration({x: 0, y: 0, z: 0, distanceX: 0, distanceY: 0, distanceZ: 0, stepInOut: 0}), []);
+    const [acceleration, setAcceleration] = useState({x: 0, y: 0, z: 0, stepInOut: 0});
+    const resetAcceleration = useCallback(() => setAcceleration({x: 0, y: 0, z: 0, stepInOut: 0}), []);
 
     const handleRotation = useCallback((event) => {
         function getTurningFactor(alpha, beta, gamma) {
@@ -92,7 +90,7 @@ const Accelerometer = (props) => {
     }, [setRotation, resetRotation]);
 
     const handleLinearAcceleration = useCallback(() => {
-        const {x, y, z, timestamp} = sensor;
+        const {x, y, z} = sensor;
 
         let newAcceleration = {
             x: x * multiplier,
@@ -114,38 +112,11 @@ const Accelerometer = (props) => {
         // reset acceleration if it doesn't change in time
         if (accelerationChanged) {
             clearTimeout(accelerationReset);
-
-            // console.log(`old | ${accelerationStart} || new | ${timestamp}`);
-            // const centimetersTravelled = (accelerationValue, seconds) => 50 * accelerationValue * seconds * seconds;
-
-            // if (accelerationPrevTimestamp)
-            //     console.log(`secondsAfterChange: ${(timestamp - accelerationPrevTimestamp) / 1000.0}`);
-            // const secondsSinceLastChange = accelerationPrevTimestamp ? ((timestamp - accelerationPrevTimestamp) / 1000.0) : 0;
-
-            accelerationPrevTimestamp = timestamp;
-
-            // const distances = 0 < secondsSinceLastChange < 0.3
-            //     ? {
-            //         distanceX: centimetersTravelled(newAcceleration.x, secondsSinceLastChange),
-            //         distanceY: centimetersTravelled(newAcceleration.y, secondsSinceLastChange),
-            //         distanceZ: centimetersTravelled(newAcceleration.z, secondsSinceLastChange),
-            //     } : {
-            //         distanceX: 0,
-            //         distanceY: 0,
-            //         distanceZ: 0,
-            //     };
-            // console.log(`${newAcceleration.x} - ${newAcceleration.y} - ${newAcceleration.z}`);
-            // console.log(`${distances.distanceX} - ${distances.distanceY} - ${distances.distanceZ}`);
-            // const stepping = (-distances.distanceZ * (2/3.0) + (1/3.0) * distances.distanceY);
-            const stepping = (-newAcceleration.z * (2 / 3) + (1 / 3) * newAcceleration.y);
-            console.log(`stepping | ${stepping}`);
-
+            accelerationReset = setTimeout(resetAcceleration, 300);
             setAcceleration({
                 ...newAcceleration,
-                // ...distances,
-                stepInOut: stepping
+                stepInOut: (-newAcceleration.z * (2 / 3) + (1 / 3) * newAcceleration.y)
             });
-            accelerationReset = setTimeout(resetAcceleration, 300);
         }
     });
 
@@ -191,4 +162,4 @@ const Accelerometer = (props) => {
     return children(acceleration, rotation);
 };
 
-export default Accelerometer;
+export default SensorProvider;

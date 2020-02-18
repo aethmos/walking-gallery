@@ -1,48 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
-import {StaticQuery, graphql, Link} from 'gatsby';
+import React, {useState} from 'react';
+import {graphql, StaticQuery} from 'gatsby';
 import Helmet from 'react-helmet';
-import {Icon} from "@iconify/react";
-import home from "@iconify/icons-mdi-light/home";
-import activatedSensor from "@iconify/icons-mdi-light/eye";
-import suspendedSensor from "@iconify/icons-mdi-light/eye-off";
 import '../assets/sass/global.scss';
-import styles from './layout.module.scss';
+import {Header} from "./header";
 
-function Header({showHomeButton, title, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}) {
-    const sensorBtn = useRef();
-    const titleBtn = useRef();
-
-    useEffect(() => {
-        const button = sensorBtn.current;
-        const title = titleBtn.current;
-        button.addEventListener('click', event => {
-            setSensorActive(!sensorActive);
-        });
-        title.addEventListener('click', event => {
-            setDebugPanelActive(!debugPanelActive);
-        });
-        return () => {
-            button.removeEventListener('click', event => {
-                setSensorActive(!sensorActive);
-            });
-            title.removeEventListener('click', event => {
-                setDebugPanelActive(!debugPanelActive);
-            });
-        }
-    });
-
-    return <div className={styles.header}>
-        <div className={styles.backBtn} style={{opacity: showHomeButton ? 1 : 0}}><Link to='/'><Icon icon={home}/></Link></div>
-        <div className={styles.title} ref={titleBtn}><h1>{title}</h1></div>
-        <div className={styles.suspendBtn} ref={sensorBtn}><Icon icon={sensorActive ? activatedSensor : suspendedSensor}/></div>
-    </div>;
-}
-
-Header.propTypes = {
-    title: PropTypes.any,
-    meta: PropTypes.any
-};
 const Layout = ({children, title, image, showHomeButton = true}) => {
     const [sensorActive, setSensorActive] = useState(true);
     const [debugPanelActive, setDebugPanelActive] = useState(false);
@@ -90,7 +51,7 @@ const Layout = ({children, title, image, showHomeButton = true}) => {
                 </Helmet>
 
                 <Header title={title || meta.title} {...{showHomeButton, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}}/>
-                <div className={styles.page}>
+                <div className='content'>
                     {children(sensorActive, debugPanelActive)}
                 </div>
                 </>

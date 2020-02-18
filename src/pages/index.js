@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/layout';
 import {graphql} from "gatsby";
-import Slider from "../components/Slider";
+import Slider from "../components/slider";
 
 const IndexPage = ({data: {categories, imagesByCategory}}) => {
     const totalImages = categories.totalCount;

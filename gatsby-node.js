@@ -28,7 +28,7 @@ exports.createPages = async ({graphql, actions, reporter}) => {
     categories.map((value, index) => {
         createPage({
             path: value.relativeDirectory,
-            component: path.resolve(`./src/components/AlbumTemplate.js`),
+            component: path.resolve(`./src/components/AlbumPageTemplate.js`),
             context: {
                 categoryId: value.id,
                 categoryDirectory: value.relativeDirectory,

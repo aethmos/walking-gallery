@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import styles from "./Slider.module.scss";
-import Slide from "./Slide";
+import styles from "./slider.module.scss";
+import SliderSection from "./sliderSection";
 import Icon from "@iconify/react";
 import leftArrow from "@iconify/icons-mdi-light/chevron-left";
 import rightArrow from "@iconify/icons-mdi-light/chevron-right";
-import Accelerometer from "./Accelerometer";
+import SensorProvider from "./sensorProvider";
 import {wrap} from "@popmotion/popcorn";
 
 const stepInThreshold = 15;
@@ -117,7 +117,6 @@ const Slider = ({
         if (listeningToStepping && sensorActive) {
             clearTimeout(stepInOutCooldown);
 
-            // const stepInOut = -acceleration.distanceZ * (2 / 3.0) + (1 / 3.0) * acceleration.distanceY;
             const stepInOut = acceleration.stepInOut;
             const queue = [stepInOut, ...stepInOutEvents.slice(0, stepInOutBufferMax)];
 
@@ -236,18 +235,18 @@ const Slider = ({
 
             {/* slides */}
             {sections.map((content, index) => {
-                return <Slide index={index} useIndex={[currentIndex, setCurrentIndex]} totalSlides={totalSlides} content={content} acceleration={acceleration} sensorActive={sensorActive}/>
+                return <SliderSection index={index} useIndex={[currentIndex, setCurrentIndex]} totalSlides={totalSlides} content={content} acceleration={acceleration} sensorActive={sensorActive}/>
             })}
         </div>
     )
 };
 
 const SensorSlider = ({sensorActive = true, ...props}) => (
-    <Accelerometer sensorActive={sensorActive} multiplier={50}>
+    <SensorProvider sensorActive={sensorActive} multiplier={50}>
         {(acceleration, rotation) => (
             <Slider {...props} acceleration={acceleration} rotation={rotation} sensorActive={sensorActive}/>
         )}
-    </Accelerometer>
+    </SensorProvider>
 );
 
 export default SensorSlider;

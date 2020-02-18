@@ -3,7 +3,7 @@ import BackgroundImage from "gatsby-background-image";
 import {useMotionValue, motion} from "framer-motion";
 import {wrap} from "@popmotion/popcorn";
 import {Link} from "gatsby";
-import styles from "./Slider.module.scss";
+import styles from "./slider.module.scss";
 
 const AutoLink = ({to, children}) => {
     return to ? <Link to={to}>{children}</Link> : <>{children}</>
@@ -33,7 +33,7 @@ const variants = {
     })
 };
 
-const Slide = ({content, index, totalSlides, useIndex}) => {
+const SliderSection = ({content, index, totalSlides, useIndex}) => {
     const [currentIndex, setCurrentIndex] = useIndex;
     const [inView, setInView] = useState(currentIndex === index);
     const [deviceWidth, setDeviceWidth] = useState(1000);
@@ -99,4 +99,4 @@ const Slide = ({content, index, totalSlides, useIndex}) => {
     )
 };
 
-export default Slide;
+export default SliderSection;

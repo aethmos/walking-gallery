@@ -1,9 +1,9 @@
 import React from 'react';
 import Layout from '../components/layout';
 import {graphql} from "gatsby";
-import Slider from "../components/Slider";
+import Slider from "./slider";
 
-const AlbumTemplate = ({data: {category, images}}) => {
+const AlbumPageTemplate = ({data: {category, images}}) => {
     const totalImages = images.edges.length;
     const sections = images.edges.map((edge, index) => ({
         image: edge.node,
@@ -55,4 +55,4 @@ export const query = graphql`
             }
         `;
 
-export default AlbumTemplate;
+export default AlbumPageTemplate;
