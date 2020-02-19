@@ -13,23 +13,21 @@ const useAccelerationSensor = ({frequency = 10, sensorActive = true, referenceFr
                 let instance;
                 if ('LinearAccelerationSensor' in window)
                     instance = new window.LinearAccelerationSensor({frequency, referenceFrame});
-                setSensor(instance);
-                console.log('acceleration sensor | initialized');
-                console.log(instance);
+                    console.log('acceleration sensor | initialized');
+                    setSensor(instance);
             }
             return () => {
                 setSensor(null);
             }
         }
-    }, [referenceFrame, frequency]);
+    }, []);
 
     // start / stop
     useEffect(() => {
-        if (sensor) {
-            if (sensorActive && !sensor.active) {
-                sensor.start();
-                console.log('acceleration sensor | started');
-            } else if (!sensorActive && sensor.active) {
+        if (sensor && sensorActive) {
+            sensor.start();
+            console.log('acceleration sensor | started');
+            return () => {
                 sensor.stop();
                 console.log('acceleration sensor | stopped');
             }
@@ -52,7 +50,6 @@ const SensorProvider = (props) => {
 
     const handleRotation = useCallback((event) => {
         function getTurningFactor(alpha, beta, gamma) {
-            console.log(orientation);
             switch (orientation) {
                 // portrait
                 case 'portrait':
@@ -90,6 +87,11 @@ const SensorProvider = (props) => {
     }, [setRotation, resetRotation]);
 
     const handleLinearAcceleration = useCallback(() => {
+        if (!sensorActive) {
+            resetAcceleration();
+            return;
+        }
+
         const {x, y, z} = sensor;
 
         let newAcceleration = {
@@ -135,8 +137,7 @@ const SensorProvider = (props) => {
         }
     }, [sensor]);
 
-
-    const handleOrientation = useCallback(() => {
+    const setOrientation = useCallback(() => {
         orientation = window.screen.orientation.type;
         if (orientation.startsWith('landscape'))
             window.document.documentElement.requestFullscreen();
@@ -148,10 +149,11 @@ const SensorProvider = (props) => {
 
     useEffect(() => {
         if (sensorActive) {
-            window.screen.orientation.addEventListener('change', handleOrientation);
+            window.screen.orientation.addEventListener('change', setOrientation);
+            orientation = window.screen.orientation.type;
             window.addEventListener('devicemotion', handleRotation);
             return () => {
-                window.screen.orientation.removeEventListener('change', handleOrientation);
+                window.screen.orientation.removeEventListener('change', setOrientation);
                 window.removeEventListener('devicemotion', handleRotation);
             }
         } else {
