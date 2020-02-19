@@ -68,6 +68,14 @@ a {
   text-decoration: none;
 }
 
+.button {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-size: large;
   font-family: $font__family_heading;

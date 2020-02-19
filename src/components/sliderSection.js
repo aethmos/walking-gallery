@@ -84,17 +84,23 @@ const SliderSection = ({content, index, totalSlides, useIndex}) => {
                             setCurrentIndex(index => wrapped(index - 1));
                         }
                     }}>
-            <AutoLink to={content.link}>
-                <BackgroundImage className={styles.image}
-                                 fluid={content.image.childImageSharp.fluid}
-                                 data-index={index} data-active={inView}/>
-            </AutoLink>
+            <figure>
+                <AutoLink to={content.link}>
+                    <BackgroundImage className={styles.image}
+                                     fluid={content.image.childImageSharp.fluid}
+                                     data-index={index} data-active={inView}/>
+                </AutoLink>
 
-            {!content.text ? null :
-                <div className={styles.panel}
-                     data-index={index} data-active={inView}>
-                    <h3>{content.text}</h3>
-                </div>}
+                {
+                    !content.text ? null :
+                        <figcaption>
+                            <div className={styles.panel}
+                                 data-index={index} data-active={inView}>
+                                <h3>{content.text}</h3>
+                            </div>
+                        </figcaption>
+                }
+            </figure>
         </motion.div>
     )
 };

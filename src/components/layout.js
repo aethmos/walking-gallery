@@ -51,9 +51,9 @@ const Layout = ({children, title, image, showHomeButton = true}) => {
                 </Helmet>
 
                 <Header title={title || meta.title} {...{showHomeButton, sensorActive, setSensorActive, debugPanelActive, setDebugPanelActive}}/>
-                <div className='content'>
+                <main className='content'>
                     {children(sensorActive, debugPanelActive)}
-                </div>
+                </main>
                 </>
                 )}
         />

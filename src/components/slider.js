@@ -206,9 +206,10 @@ const Slider = ({
     return (
         <div className={className}>
             {/* navigation arrows */}
-            <div className={`${styles.arrows} ${styles.left}`} ref={leftArrowElement}><Icon icon={leftArrow}/></div>
-            <div className={`${styles.arrows} ${styles.right}`} ref={rightArrowElement}><Icon icon={rightArrow}/></div>
+            <nav className={`${styles.arrows} ${styles.left}`} ref={leftArrowElement}><Icon icon={leftArrow}/></nav>
+            <nav className={`${styles.arrows} ${styles.right}`} ref={rightArrowElement}><Icon icon={rightArrow}/></nav>
 
+            {/* debug panel */}
             <div className={`${styles.debug}${debugPanelActive ? '' : ` ${styles.hidden}`}`}>
                 <h3>{alert}</h3>
                 <h4>Acceleration</h4>
